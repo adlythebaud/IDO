@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddItemActivity" />
-        <activity android:name=".NewItemActivity" />
+        <activity
+            android:name=".NewItemActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            />
         <activity android:name=".ChangeItemActivity" />
         <activity android:name=".UserListActivity" />
         <activity android:name=".NotifSettingsActivity"></activity>
