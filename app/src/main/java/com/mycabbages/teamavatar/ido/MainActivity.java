@@ -1,5 +1,6 @@
 package com.mycabbages.teamavatar.ido;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,5 +49,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void button(View view) {
+        Intent intentToGoToAddActivity = new Intent(this, AddItemActivity.class);
+        startActivity(intentToGoToAddActivity);
+
     }
 }

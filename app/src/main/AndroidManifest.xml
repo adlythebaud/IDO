@@ -19,11 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddItemActivity" />
         <activity android:name=".NewItemActivity" />
         <activity android:name=".ChangeItemActivity" />
         <activity android:name=".UserListActivity" />
-        <activity android:name=".NotifSettingsActivity"></activity>
+        <activity android:name=".NotifSettingsActivity" />
+        <activity
+            android:name=".AddItemActivity"
+            android:label="@string/title_activity_add_item"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mycabbages.teamavatar.ido.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
