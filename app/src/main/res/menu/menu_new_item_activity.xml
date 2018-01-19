@@ -12,7 +12,7 @@
     <!-- "Save" button should appear as check mark always. -->
     <item
         android:id="@+id/done"
-        android:icon="@drawable/done_icon"
+        android:icon="@drawable/done"
         android:title="@string/done"
         app:showAsAction="always"
         android:orderInCategory="100"
