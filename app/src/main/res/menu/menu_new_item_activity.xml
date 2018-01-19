@@ -2,9 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mycabbages.teamavatar.ido.NewItemActivity">
+
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
+
+    <!-- "Save" button should appear as check mark always. -->
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/done"
+        android:icon="@drawable/done_icon"
+        android:title="@string/done"
+        app:showAsAction="always"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        />
 </menu>

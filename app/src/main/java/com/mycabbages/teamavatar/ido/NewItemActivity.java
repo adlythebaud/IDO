@@ -27,13 +27,6 @@ public class NewItemActivity extends AppCompatActivity {
 
     }
 
-    /*
-        * To use the ActionBar utility methods, call the activity's getSupportActionBar() method.
-        * This method returns a reference to an appcompat ActionBar object. Once you have that
-        * reference, you can call any of the ActionBar methods to adjust the app bar. For example,
-        * to hide the app bar, call ActionBar.hide().
-        * */
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
