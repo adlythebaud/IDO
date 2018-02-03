@@ -1,13 +1,21 @@
 package com.mycabbages.teamavatar.ido;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 public class NewItemActivity extends AppCompatActivity {
+
+    private final String TAG = "NewItemActivity";
+    private ConstraintLayout mConstraintLayout;
+    private Switch mSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +32,20 @@ public class NewItemActivity extends AppCompatActivity {
 
         // Enable the up button.
         actionBar.setDisplayHomeAsUpEnabled(true);
+        mSwitch = (Switch) findViewById(R.id.notificationSettingsSwitch);
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.d(TAG, "switch is on");
+                    // do something because the switch is on...
+                } else {
+                    Log.d(TAG, "switch is off");
+                    // do something because the switch is off..
+                }
+            }
+        });
 
     }
 
@@ -42,7 +64,8 @@ public class NewItemActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.done) {
+            Log.d(TAG, "Done button tapped");
             return true;
         }
 
