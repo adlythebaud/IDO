@@ -22,8 +22,12 @@ public class NewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_item);
 
-        // set the toolbar as the action bar for the activity.
+        // get references to everything we need in the UI.
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        mSwitch = (Switch) findViewById(R.id.notificationSettingsSwitch);
+        mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
+
+        // set the toolbar as the action bar for the activity.
         setSupportActionBar(myToolbar);
 
         // get a reference to the action bar
@@ -32,7 +36,7 @@ public class NewItemActivity extends AppCompatActivity {
 
         // Enable the up button.
         actionBar.setDisplayHomeAsUpEnabled(true);
-        mSwitch = (Switch) findViewById(R.id.notificationSettingsSwitch);
+
 
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -40,9 +44,11 @@ public class NewItemActivity extends AppCompatActivity {
                 if (isChecked) {
                     Log.d(TAG, "switch is on");
                     // do something because the switch is on...
+                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() + 20);
                 } else {
                     Log.d(TAG, "switch is off");
                     // do something because the switch is off..
+                    mConstraintLayout.animate().translationY(0);
                 }
             }
         });
