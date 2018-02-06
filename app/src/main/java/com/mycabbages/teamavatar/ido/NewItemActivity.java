@@ -2,12 +2,14 @@ package com.mycabbages.teamavatar.ido;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -44,7 +46,7 @@ public class NewItemActivity extends AppCompatActivity {
                 if (isChecked) {
                     Log.d(TAG, "switch is on");
                     // do something because the switch is on...
-                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() + 20);
+                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() - 60);
                 } else {
                     Log.d(TAG, "switch is off");
                     // do something because the switch is off..
@@ -76,6 +78,16 @@ public class NewItemActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
 }
