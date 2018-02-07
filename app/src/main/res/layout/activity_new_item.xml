@@ -58,7 +58,7 @@
         android:layout_width="395dp"
         android:layout_height="239dp"
         android:layout_marginBottom="12dp"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -67,36 +67,55 @@
             android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="92dp"
             android:ems="10"
             android:inputType="date"
+            android:onClick="showDatePickerDialog"
             app:layout_constraintEnd_toStartOf="@+id/timePicker"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="showDatePickerDialog"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/timePicker"
-            android:layout_width="116dp"
-            android:layout_height="45dp"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="100dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="44dp"
+            android:layout_marginTop="92dp"
             android:ems="10"
             android:inputType="time"
+            android:onClick="showTimePickerDialog"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="showTimePickerDialog"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/datePickerEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="date"
+            android:onClick="showDatePickerDialog"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.187"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/datePicker"
+            app:layout_constraintVertical_bias="0.289" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottomConstraintLayout"
         android:layout_width="395dp"
-        android:layout_height="242dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@android:color/holo_orange_dark"
+        android:background="@android:color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,10 +124,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:layout_width="75dp"
-            android:layout_height="20dp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:background="@android:color/holo_red_dark"
-            android:text="@string/delete" />
+            android:text="@string/delete"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import java.util.Date;
@@ -22,6 +23,7 @@ public class NewItemActivity extends AppCompatActivity
     private final String TAG = "NewItemActivity";
     private ConstraintLayout mConstraintLayout; // ConstraintLayout containing delete button
     private Switch mSwitch;
+    private EditText datePickerEditText;
 
 
 
