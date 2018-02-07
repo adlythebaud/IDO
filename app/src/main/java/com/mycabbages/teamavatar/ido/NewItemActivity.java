@@ -16,7 +16,8 @@ import android.widget.Switch;
 import java.util.Date;
 
 public class NewItemActivity extends AppCompatActivity
-        implements DatePickerFragment.DatePickerFragmentListener {
+        implements DatePickerFragment.DatePickerFragmentListener,
+        TimePickerFragment.TimePickerFragmentListener {
 
     private final String TAG = "NewItemActivity";
     private ConstraintLayout mConstraintLayout; // ConstraintLayout containing delete button
@@ -105,8 +106,8 @@ public class NewItemActivity extends AppCompatActivity
      * SHOW TIME PICKER DIALOG
      * */
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        DialogFragment newFragment = TimePickerFragment.newInstance(this);
+        newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     /**
@@ -114,6 +115,14 @@ public class NewItemActivity extends AppCompatActivity
      * */
     @Override
     public void onDateSet(Date date) {
+        Log.d(TAG, date.toString());
+    }
+
+    /**
+     * ON TIME SET
+     * */
+    @Override
+    public void onTimeSet(Date date) {
         Log.d(TAG, date.toString());
     }
 }

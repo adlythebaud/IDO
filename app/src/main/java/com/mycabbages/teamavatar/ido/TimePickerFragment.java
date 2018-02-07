@@ -8,12 +8,36 @@ import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by adlythebaud on 2/5/18.
  */
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+    private final String TAG = "TimePickerFragment";
+    private TimePickerFragmentListener timePickerListener;
+
+    /**
+     * TIME PICKER FRAGMENT LISTENER INTERFACE.
+     * Implement methods to get date back from fragment.
+     * */
+    public interface TimePickerFragmentListener {
+        public void onTimeSet(Date date);
+    }
+
+    /**
+     * NEW INSTANCE
+     * @param listener - activity that will be listening to changes in the fragment.
+     * */
+    // static factory method to create a fragment instance. Useful for
+    // defining a method that properly sets up the fragment.
+    public static TimePickerFragment newInstance(TimePickerFragment.TimePickerFragmentListener listener) {
+        TimePickerFragment fragment = new TimePickerFragment();
+        fragment.setTimePickerListener(listener);
+        return fragment;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,9 +51,45 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-
+    /**
+     * ON TIME SET
+     * set a notification based on hourOfDay and minute selected by user.
+     * */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // do something with the time selected by the user.
+        Calendar c = Calendar.getInstance();
+        //c.set(hourOfDay, minute);
+        Date date = c.getTime();
+
+        // Here we call the listener and pass the date back to it.
+        notifyTimePickerListener(date);
     }
+
+    /**
+     * GET TIME PICKER LISTENER
+     * */
+    public TimePickerFragmentListener getTimePickerListener() {
+        return timePickerListener;
+    }
+
+    /**
+     * SET TIME PICKER LISTENER
+     * */
+    public void setTimePickerListener(TimePickerFragmentListener timePickerListener) {
+        this.timePickerListener = timePickerListener;
+    }
+
+    /**
+     * NOTIFY TIME PICKER LISTENER
+     * @param date - passed in date from fragment's implementation of onTimeSet.
+     * Calls the listener's implementation of onTimeSet with passed in parameter.
+     * */
+    protected void notifyTimePickerListener(Date date) {
+        if(this.timePickerListener != null) {
+            this.timePickerListener.onTimeSet(date);
+        }
+    }
+
+
 }
