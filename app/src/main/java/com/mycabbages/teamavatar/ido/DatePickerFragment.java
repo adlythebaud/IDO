@@ -17,9 +17,17 @@ import java.util.Date;
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private final String TAG = "DatePickerFragment";
+    public String test = "test";
+    private DatePickerFragmentListener datePickerListener;
+
+    /**
+     * DATE PICKER FRAGMENT LISTENER INTERFACE.
+     * Implement methods to get date back from fragment.
+     * */
     public interface DatePickerFragmentListener {
         public void onDateSet(Date date);
     }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,7 +43,25 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        // do something with the date chosen by the user.
         Log.d(TAG, "date was set");
     }
+
+    public DatePickerFragmentListener getDatePickerListener() {
+        return datePickerListener;
+    }
+
+    public void setDatePickerListener(DatePickerFragmentListener datePickerListener) {
+        this.datePickerListener = datePickerListener;
+    }
+
+    /**
+     * NOTIFY DATE PICKER LISTENER
+     * Method to safely call date picker listener
+     * */
+    protected void notifyDatePickerListener(Date date) {
+        if(this.datePickerListener != null) {
+            this.datePickerListener.onDateSet(date);
+        }
+    }
+
 }

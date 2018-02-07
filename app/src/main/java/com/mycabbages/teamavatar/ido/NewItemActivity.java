@@ -19,6 +19,8 @@ public class NewItemActivity extends AppCompatActivity {
     private ConstraintLayout mConstraintLayout;
     private Switch mSwitch;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class NewItemActivity extends AppCompatActivity {
         // Enable the up button.
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
+        // set a listener for the switch for when it is checked
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -54,6 +56,10 @@ public class NewItemActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+
 
     }
 
@@ -80,9 +86,13 @@ public class NewItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
+
+
+
     }
 
     public void showTimePickerDialog(View v) {
