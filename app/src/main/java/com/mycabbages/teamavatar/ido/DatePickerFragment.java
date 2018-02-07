@@ -28,6 +28,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         public void onDateSet(Date date);
     }
 
+    // static factory method to create a fragment instance. Useful for
+    // defining a method that properly sets up the fragment.
+    public static DatePickerFragment newInstance(DatePickerFragmentListener listener) {
+        DatePickerFragment fragment = new DatePickerFragment();
+        fragment.setDatePickerListener(listener);
+        return fragment;
+    }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,6 +52,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Log.d(TAG, "date was set");
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, dayOfMonth);
+        Date date = c.getTime();
+        notifyDatePickerListener(date);
     }
 
     public DatePickerFragmentListener getDatePickerListener() {

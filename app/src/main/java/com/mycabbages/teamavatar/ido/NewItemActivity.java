@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-public class NewItemActivity extends AppCompatActivity {
+import java.util.Date;
+
+public class NewItemActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener {
 
     private final String TAG = "NewItemActivity";
     private ConstraintLayout mConstraintLayout;
@@ -88,10 +90,8 @@ public class NewItemActivity extends AppCompatActivity {
 
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(this);
         newFragment.show(getSupportFragmentManager(), "datePicker");
-
-
 
     }
 
@@ -100,4 +100,8 @@ public class NewItemActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    @Override
+    public void onDateSet(Date date) {
+        Log.d(TAG, date.toString());
+    }
 }
