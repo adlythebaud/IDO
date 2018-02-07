@@ -15,10 +15,11 @@ import android.widget.Switch;
 
 import java.util.Date;
 
-public class NewItemActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener {
+public class NewItemActivity extends AppCompatActivity
+        implements DatePickerFragment.DatePickerFragmentListener {
 
     private final String TAG = "NewItemActivity";
-    private ConstraintLayout mConstraintLayout;
+    private ConstraintLayout mConstraintLayout; // ConstraintLayout containing delete button
     private Switch mSwitch;
 
 
@@ -31,6 +32,8 @@ public class NewItemActivity extends AppCompatActivity implements DatePickerFrag
         // get references to everything we need in the UI.
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         mSwitch = (Switch) findViewById(R.id.notificationSettingsSwitch);
+
+        // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
 
         // set the toolbar as the action bar for the activity.
@@ -38,12 +41,15 @@ public class NewItemActivity extends AppCompatActivity implements DatePickerFrag
 
         // get a reference to the action bar
         ActionBar actionBar = getSupportActionBar();
+
+        // set the action bar title
         actionBar.setTitle("New Item Activity");
 
         // Enable the up button.
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // set a listener for the switch for when it is checked
+        // hid
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -58,9 +64,6 @@ public class NewItemActivity extends AppCompatActivity implements DatePickerFrag
                 }
             }
         });
-
-
-
 
 
     }
@@ -89,17 +92,26 @@ public class NewItemActivity extends AppCompatActivity implements DatePickerFrag
     }
 
 
+    /**
+     * SHOW DATE PICKER DIALOG
+     * */
     public void showDatePickerDialog(View v) {
         DatePickerFragment newFragment = DatePickerFragment.newInstance(this);
         newFragment.show(getSupportFragmentManager(), "datePicker");
 
     }
 
+    /**
+     * SHOW TIME PICKER DIALOG
+     * */
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    /**
+     * ON DATE SET
+     * */
     @Override
     public void onDateSet(Date date) {
         Log.d(TAG, date.toString());

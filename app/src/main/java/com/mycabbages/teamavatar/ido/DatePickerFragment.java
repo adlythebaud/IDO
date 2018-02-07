@@ -28,6 +28,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         public void onDateSet(Date date);
     }
 
+    /**
+     * NEW INSTANCE
+     * @param listener - activity that will be listening to changes in the fragment.
+     * */
     // static factory method to create a fragment instance. Useful for
     // defining a method that properly sets up the fragment.
     public static DatePickerFragment newInstance(DatePickerFragmentListener listener) {
@@ -49,6 +53,16 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
+    /**
+     * ON DATE SET
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     *
+     * Parameters are passed in by UI.
+     * Method notifies the listener with a date object created from parameters
+     * Calls notifyDatePickerListener.
+     * */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Log.d(TAG, "date was set");
@@ -58,17 +72,24 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         notifyDatePickerListener(date);
     }
 
+    /**
+     * GET DATE PICKER LISTENER
+     * */
     public DatePickerFragmentListener getDatePickerListener() {
         return datePickerListener;
     }
 
+    /**
+     * SET DATE PICKER LISTENER
+     * */
     public void setDatePickerListener(DatePickerFragmentListener datePickerListener) {
         this.datePickerListener = datePickerListener;
     }
 
     /**
      * NOTIFY DATE PICKER LISTENER
-     * Method to safely call date picker listener
+     * @param date - passed in date from fragment's implementation of onDateSet.
+     * Calls the listener's implementation of onDateSet with passed in parameter.
      * */
     protected void notifyDatePickerListener(Date date) {
         if(this.datePickerListener != null) {
