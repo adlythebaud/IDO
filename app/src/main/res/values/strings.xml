@@ -5,4 +5,5 @@
     <string name="switch_text">Turn on notifications for this goal</string>
     <string name="addgoalbutton">Choose a new goal!</string>
     <string name="delete">DELETE</string>
+    <string name="description_optional">Description (Optional)</string>
 </resources>

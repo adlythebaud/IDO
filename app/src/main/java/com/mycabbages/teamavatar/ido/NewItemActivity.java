@@ -1,5 +1,6 @@
 package com.mycabbages.teamavatar.ido;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -24,6 +26,7 @@ public class NewItemActivity extends AppCompatActivity
     private ConstraintLayout mConstraintLayout; // ConstraintLayout containing delete button
     private Switch mSwitch;
     private EditText datePickerEditText;
+    private Button goalPickerButton;
 
 
 
@@ -35,6 +38,8 @@ public class NewItemActivity extends AppCompatActivity
         // get references to everything we need in the UI.
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         mSwitch = (Switch) findViewById(R.id.notificationSettingsSwitch);
+        datePickerEditText = (EditText) findViewById(R.id.datePickerEditText);
+        goalPickerButton = (Button) findViewById(R.id.goalPickerButton);
 
         // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
@@ -118,6 +123,7 @@ public class NewItemActivity extends AppCompatActivity
     @Override
     public void onDateSet(Date date) {
         Log.d(TAG, date.toString());
+        datePickerEditText.setText(date.toString());
     }
 
     /**
@@ -126,5 +132,14 @@ public class NewItemActivity extends AppCompatActivity
     @Override
     public void onTimeSet(Date date) {
         Log.d(TAG, date.toString());
+    }
+
+    /**
+     * TO ADD ITEM ACTIVITY
+     * Called from UI
+     * */
+    public void toAddItemActivity(View view) {
+        Intent intent = new Intent(this, AddItemActivity.class);
+        startActivity(intent);
     }
 }
