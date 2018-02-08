@@ -33,13 +33,17 @@
             />
 
         <!--CHANGE ITEM ACTIVITY-->
-        <activity android:name=".ChangeItemActivity" />
+        <activity
+            android:name=".ChangeItemActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"
+            />
 
         <!--USER LIST ACTIVITY-->
         <activity android:name=".UserListActivity" />
 
         <!--NOTIF SETTINGS ACTIVITY-->
-        <activity android:name=".NotifSettingsActivity"></activity>
+        <activity android:name=".NotifSettingsActivity" />
 
         <!-- Parent activity meta-data to support 4.0 and lower -->
         <meta-data
