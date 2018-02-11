@@ -54,4 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void button(View view) {
+        Intent intentToGoToAddActivity = new Intent(this, AddItemActivity.class);
+        startActivity(intentToGoToAddActivity);
+
+    }
 }

@@ -22,8 +22,17 @@
             </intent-filter>
         </activity>
 
+
         <!--ADD ITEM ACTIVITY-->
-        <activity android:name=".AddItemActivity" />
+        <activity
+            android:name=".AddItemActivity"
+            android:label="@string/title_activity_add_item"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mycabbages.teamavatar.ido.MainActivity" />
+        </activity>
 
         <!--NEW ITEM ACTIVITY-->
         <activity
@@ -49,6 +58,7 @@
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.mycabbages.teamavatar.ido.MainActivity" />
+
     </application>
 
 </manifest>
