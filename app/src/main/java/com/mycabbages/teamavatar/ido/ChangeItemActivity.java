@@ -28,6 +28,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     private Button goalPickerButton;
     private Button deleteButton;
     private ConstraintLayout notifConstraintLayout;
+    private EditText descriptionEditText;
 
 
 
@@ -43,7 +44,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
         goalPickerButton = (Button) findViewById(R.id.goalPickerButton);
         notifConstraintLayout = (ConstraintLayout) findViewById(R.id.notifSettingsConstraintLayout);
         deleteButton = (Button) findViewById(R.id.deleteButton);
-
+        descriptionEditText = (EditText) findViewById(R.id.description);
         // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
 
@@ -69,6 +70,8 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
                     Log.d(TAG, "switch is on");
                     // do something because the switch is on...
                     mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() - deleteButton.getHeight());
+//                    mConstraintLayout.animate().translationY(datePickerEditText.getHeight() +
+//                            descriptionEditText.getHeight() + deleteButton.getHeight());
                 } else {
                     Log.d(TAG, "switch is off");
                     // do something because the switch is off..

@@ -27,6 +27,9 @@ public class NewItemActivity extends AppCompatActivity
     private Switch mSwitch;
     private EditText datePickerEditText;
     private Button goalPickerButton;
+    private Button deleteButton;
+    private ConstraintLayout notifConstraintLayout;
+    private EditText descriptionEditText;
 
 
 
@@ -40,6 +43,11 @@ public class NewItemActivity extends AppCompatActivity
         mSwitch = (Switch) findViewById(R.id.notificationSettingsSwitch);
         datePickerEditText = (EditText) findViewById(R.id.datePickerEditText);
         goalPickerButton = (Button) findViewById(R.id.goalPickerButton);
+        notifConstraintLayout = (ConstraintLayout) findViewById(R.id.notifSettingsConstraintLayout);
+        deleteButton = (Button) findViewById(R.id.deleteButton);
+        descriptionEditText = (EditText) findViewById(R.id.description);
+        // Get reference to ConstraintLayout containing delete button
+        mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
 
         // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
@@ -64,7 +72,7 @@ public class NewItemActivity extends AppCompatActivity
                 if (isChecked) {
                     Log.d(TAG, "switch is on");
                     // do something because the switch is on...
-                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() - 60);
+                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() - deleteButton.getHeight());
                 } else {
                     Log.d(TAG, "switch is off");
                     // do something because the switch is off..
