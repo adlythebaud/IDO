@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void button(View view) {
-        Intent intentToGoToAddActivity = new Intent(this, ChangeItemActivity.class);
+        Intent intentToGoToAddActivity = new Intent(this, NotifSettingsActivity.class);
         startActivity(intentToGoToAddActivity);
 
     }

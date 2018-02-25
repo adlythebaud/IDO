@@ -61,7 +61,7 @@ public class NewItemActivity extends AppCompatActivity
         // set the action bar title
         actionBar.setTitle("New Item Activity");
 
-        // Enable the up button.
+        // Display back arrow (up button) in top left and enable it.
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // set a listener for the switch for when it is checked
