@@ -17,7 +17,7 @@
             </item>
 
             <item
-                android:drawable="@drawable/monday_checked"
+                android:drawable="@drawable/saturday_sunday_checked_text"
                 />
         </layer-list>
     </item>

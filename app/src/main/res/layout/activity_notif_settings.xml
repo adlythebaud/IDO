@@ -21,41 +21,96 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="56dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
         app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="30dp" />
+        tools:layout_editor_absoluteX="47dp" />
 
-    <CheckBox
-        android:id="@+id/day_check_box"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="124dp"
-        android:background="@android:color/holo_green_dark"
-        android:button="@drawable/circular_checkbox"
-        android:scaleX="3"
-        android:scaleY="3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        tools:ignore="MissingConstraints" />
 
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
-        android:button="@drawable/circular_checkbox"
-        android:text="CheckBox"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintHorizontal_weight="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_check_box" />
+        app:layout_constraintTop_toBottomOf="@+id/editText">
+
+        <CheckBox
+            android:id="@+id/mondayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/monday_checkbox"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <CheckBox
+            android:id="@+id/tuesdayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/tuesday_checkbox"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <CheckBox
+            android:id="@+id/wednesdayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/wednesday_checkbox"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <CheckBox
+            android:id="@+id/thursdayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/tuesday_checkbox"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <CheckBox
+            android:id="@+id/fridayCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/friday_checkbox"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <CheckBox
+            android:id="@+id/saturdayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/saturday_sunday_checkbox"
+            android:checked="false"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <CheckBox
+            android:id="@+id/sundayCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@drawable/saturday_sunday_checkbox"
+            android:checked="false"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
 

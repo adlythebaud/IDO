@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true">
+    <item android:state_checked="false">
         <layer-list>
             <item>
                 <shape android:shape="oval">
                     <corners android:radius="1dp" />
                     <gradient
-                        android:startColor="@color/colorPrimary"
-                        android:centerColor="@color/colorPrimary"
-                        android:endColor="@color/colorPrimary"
+                        android:startColor="#FAFAFA"
+                        android:centerColor="#FAFAFA"
+                        android:endColor="#FAFAFA"
                         android:angle="270" />
                     <size
                         android:width="30dp"
@@ -16,9 +16,7 @@
                 </shape>
             </item>
 
-            <item
-                android:drawable="@drawable/monday_checked"
-                />
+            <item android:drawable="@drawable/saturday_sunday_unchecked_text" />
         </layer-list>
     </item>
 
