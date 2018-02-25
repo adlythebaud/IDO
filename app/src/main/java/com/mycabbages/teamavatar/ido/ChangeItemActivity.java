@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.Date;
 
@@ -43,6 +44,12 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
         goalPickerButton = (Button) findViewById(R.id.goalPickerButton);
         notifConstraintLayout = (ConstraintLayout) findViewById(R.id.notifSettingsConstraintLayout);
         deleteButton = (Button) findViewById(R.id.deleteButton);
+
+        Bundle extra = getIntent().getExtras();
+        if (extra.getString("Title") != null) {
+            goalPickerButton.setText(extra.getString("Title"));
+        }
+
 
         // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
