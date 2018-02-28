@@ -75,7 +75,8 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
                 if (isChecked) {
                     Log.d(TAG, "switch is on");
                     // do something because the switch is on...
-                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() - deleteButton.getHeight());
+                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight()
+                            - deleteButton.getHeight());
                 } else {
                     Log.d(TAG, "switch is off");
                     // do something because the switch is off..
