@@ -112,15 +112,6 @@
 
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        style="@android:style/Widget.Material.Light.CompoundButton.CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CheckBox"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="300dp" />
-
 </android.support.constraint.ConstraintLayout>
 
 
