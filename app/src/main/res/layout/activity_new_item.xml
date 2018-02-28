@@ -57,11 +57,11 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/notifSettingsConstraintLayout"
         android:layout_width="0dp"
-        android:layout_height="216dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="64dp"
         android:background="#FAFAFA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,11 +126,11 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottomConstraintLayout"
         android:layout_width="0dp"
-        android:layout_height="216dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:background="#FAFAFA"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -157,4 +157,5 @@
 
 
 </android.support.constraint.ConstraintLayout>
+
 
