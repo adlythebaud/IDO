@@ -29,6 +29,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     private Button goalPickerButton;
     private Button deleteButton;
     private ConstraintLayout notifConstraintLayout;
+    private EditText descriptionEditText;
 
 
 
@@ -50,10 +51,13 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
             goalPickerButton.setText(extra.getString("Title"));
         }
 
+        descriptionEditText = (EditText) findViewById(R.id.description);
 
         // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
 
+        // make the notifConstraintLayout unclickable from the beginning.
+        notifConstraintLayout.setVisibility(notifConstraintLayout.GONE);
 
         // set the toolbar as the action bar for the activity.
         setSupportActionBar(myToolbar);
@@ -74,13 +78,17 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Log.d(TAG, "switch is on");
+
                     // do something because the switch is on...
-                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight()
-                            - deleteButton.getHeight());
+                    mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() +
+                            deleteButton.getHeight());
+                    notifConstraintLayout.setVisibility(notifConstraintLayout.VISIBLE);
                 } else {
                     Log.d(TAG, "switch is off");
+
                     // do something because the switch is off..
                     mConstraintLayout.animate().translationY(0);
+                    notifConstraintLayout.setVisibility(notifConstraintLayout.GONE);
                 }
             }
         });

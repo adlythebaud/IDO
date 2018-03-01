@@ -35,6 +35,7 @@
         android:layout_marginTop="8dp"
         android:checked="false"
         android:text="Switch"
+        app:layout_constraintBottom_toBottomOf="@+id/switch_string"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/switch_string"
@@ -44,7 +45,7 @@
         android:id="@+id/goalPickerButton"
         style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="218dp"
-        android:layout_height="49dp"
+        android:layout_height="0dp"
         android:layout_marginTop="130dp"
         android:drawableRight="@drawable/add_goal_button_arrow"
         android:onClick="toAddItemActivity"
@@ -58,27 +59,24 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/notifSettingsConstraintLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="120dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
         android:background="#FAFAFA"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goalPickerButton"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/goalPickerButton">
 
         <EditText
             android:id="@+id/datePickerEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="217dp"
+            android:layout_height="0dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:focusable="false"
             android:inputType="none"
@@ -90,14 +88,16 @@
         <EditText
             android:id="@+id/timePickerEditText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="8dp"
             android:focusable="false"
             android:inputType="none"
             android:onClick="showTimePickerDialog"
+            app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/datePickerEditText"
@@ -105,9 +105,8 @@
 
         <EditText
             android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="8dp"
@@ -115,26 +114,22 @@
             android:ems="10"
             android:hint="@string/description_optional"
             android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/datePickerEditText"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/datePickerEditText" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottomConstraintLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="120dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
         android:background="#FAFAFA"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -154,8 +149,4 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
-
-
 </android.support.constraint.ConstraintLayout>
-
