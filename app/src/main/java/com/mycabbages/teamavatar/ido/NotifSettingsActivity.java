@@ -9,13 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class NotifSettingsActivity extends AppCompatActivity
         implements TimePickerFragment.TimePickerFragmentListener {
 
     private final String TAG = "NotifSettingsActivity";
+    public EditText timePickerEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,5 +76,10 @@ public class NotifSettingsActivity extends AppCompatActivity
     @Override
     public void onTimeSet(Date date) {
         Log.d(TAG, date.toString() + " was picked");
+        // get time of day from date object
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
     }
 }

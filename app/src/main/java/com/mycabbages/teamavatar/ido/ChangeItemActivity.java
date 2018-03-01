@@ -1,11 +1,11 @@
 package com.mycabbages.teamavatar.ido;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -15,9 +15,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ChangeItemActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener,
         TimePickerFragment.TimePickerFragmentListener {
@@ -152,6 +153,12 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     @Override
     public void onTimeSet(Date date) {
         Log.d(TAG, date.toString());
+
+        // get time of day from date object
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
     }
 
     /**
