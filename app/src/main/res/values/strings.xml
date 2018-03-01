@@ -12,4 +12,6 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="save_button">Save</string>
+    <string name="user_list">User List</string>
+    <string name="todo_today">Today\'s Investments</string>
 </resources>

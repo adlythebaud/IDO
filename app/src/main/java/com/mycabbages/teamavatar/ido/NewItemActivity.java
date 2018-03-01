@@ -33,6 +33,7 @@ public class NewItemActivity extends AppCompatActivity
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,7 @@ public class NewItemActivity extends AppCompatActivity
         notifConstraintLayout = (ConstraintLayout) findViewById(R.id.notifSettingsConstraintLayout);
         deleteButton = (Button) findViewById(R.id.deleteButton);
         descriptionEditText = (EditText) findViewById(R.id.description);
+
         // Get reference to ConstraintLayout containing delete button
         mConstraintLayout = (ConstraintLayout) findViewById(R.id.bottomConstraintLayout);
 
@@ -71,12 +73,10 @@ public class NewItemActivity extends AppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     Log.d(TAG, "switch is on");
-
                     // do something because the switch is on...
                     mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() +
                             deleteButton.getHeight());
                     notifConstraintLayout.setVisibility(notifConstraintLayout.VISIBLE);
-
                 } else {
                     Log.d(TAG, "switch is off");
 
