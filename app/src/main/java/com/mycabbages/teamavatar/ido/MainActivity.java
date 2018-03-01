@@ -6,13 +6,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     ListView list;
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Intent intent = new Intent(this, NewItemActivity.class);
+        final Intent intent = new Intent(this, NotifSettingsActivity.class);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

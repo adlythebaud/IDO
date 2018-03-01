@@ -1,14 +1,19 @@
 package com.mycabbages.teamavatar.ido;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class NotifSettingsActivity extends AppCompatActivity {
+import java.util.Date;
+
+public class NotifSettingsActivity extends AppCompatActivity
+        implements TimePickerFragment.TimePickerFragmentListener {
 
     private final String TAG = "NotifSettingsActivity";
     @Override
@@ -52,5 +57,19 @@ public class NotifSettingsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * SHOW TIME PICKER DIALOG
+     * */
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = TimePickerFragment.newInstance(this);
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+        Log.d(TAG, "timepicker was clicked");
+    }
+
+    @Override
+    public void onTimeSet(Date date) {
+        Log.d(TAG, date.toString() + " was picked");
     }
 }
