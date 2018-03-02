@@ -11,23 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class NotifSettingsActivity extends AppCompatActivity
         implements TimePickerFragment.TimePickerFragmentListener {
 
     private final String TAG = "NotifSettingsActivity";
     public EditText timePickerEditText;
+    public Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notif_settings);
 
-        // get reference to toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        getUIElements();
 
         // set the toolbar as the action bar for the activity.
         setSupportActionBar(myToolbar);
@@ -65,6 +61,15 @@ public class NotifSettingsActivity extends AppCompatActivity
     }
 
     /**
+     * GET UI ELEMENTS
+     * Get references to all the UI elements so we can use them.
+     * */
+    public void getUIElements() {
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        timePickerEditText = (EditText) findViewById(R.id.timePickerEditText);
+    }
+
+    /**
      * SHOW TIME PICKER DIALOG
      * */
     public void showTimePickerDialog(View v) {
@@ -74,12 +79,7 @@ public class NotifSettingsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onTimeSet(Date date) {
-        Log.d(TAG, date.toString() + " was picked");
-        // get time of day from date object
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(date);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+    public void onTimeSet(int hourOfDay, int minute) {
+        timePickerEditText.setText(hourOfDay + ":" + minute);
     }
 }

@@ -16,9 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class ChangeItemActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener,
         TimePickerFragment.TimePickerFragmentListener {
@@ -31,6 +29,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     private Button deleteButton;
     private ConstraintLayout notifConstraintLayout;
     private EditText descriptionEditText;
+    private EditText timePickerEditText;
 
 
 
@@ -46,6 +45,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
         goalPickerButton = (Button) findViewById(R.id.goalPickerButton);
         notifConstraintLayout = (ConstraintLayout) findViewById(R.id.notifSettingsConstraintLayout);
         deleteButton = (Button) findViewById(R.id.deleteButton);
+        timePickerEditText = (EditText) findViewById(R.id.timePickerEditText);
 
         Bundle extra = getIntent().getExtras();
         if (extra.getString("Title") != null) {
@@ -151,14 +151,8 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
      * ON TIME SET
      * */
     @Override
-    public void onTimeSet(Date date) {
-        Log.d(TAG, date.toString());
-
-        // get time of day from date object
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(date);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+    public void onTimeSet(int hourOfDay, int minute) {
+        timePickerEditText.setText(hourOfDay + ":" + minute);
     }
 
     /**

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
@@ -24,7 +25,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
      * Implement methods to get date back from fragment.
      * */
     public interface TimePickerFragmentListener {
-        public void onTimeSet(Date date);
+        public void onTimeSet(int hourOfDay, int minute);
     }
 
     /**
@@ -62,8 +63,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         //c.set(hourOfDay, minute);
         Date date = c.getTime();
 
+        Log.d(TAG, hourOfDay + ":" + minute);
+
         // Here we call the listener and pass the date back to it.
-        notifyTimePickerListener(date);
+        notifyTimePickerListener(hourOfDay, minute);
     }
 
     /**
@@ -82,12 +85,13 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     /**
      * NOTIFY TIME PICKER LISTENER
-     * @param date - passed in date from fragment's implementation of onTimeSet.
+     * @param hourOfDay - passed in date from fragment's implementation of onTimeSet.
+     * @param minute - passed in date from fragment's implementation of onTimeSet.
      * Calls the listener's implementation of onTimeSet with passed in parameter.
      * */
-    protected void notifyTimePickerListener(Date date) {
+    protected void notifyTimePickerListener(int hourOfDay, int minute) {
         if(this.timePickerListener != null) {
-            this.timePickerListener.onTimeSet(date);
+            this.timePickerListener.onTimeSet(hourOfDay, minute);
         }
     }
 
