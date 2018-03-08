@@ -15,4 +15,6 @@
     <string name="user_list">User List</string>
     <string name="todo_today">Today\'s Investments</string>
     <string name="notif_settings">Notification Settings</string>
+    <string name="cancel">CANCEL</string>
+    <string name="cuckoo_clock">Cuckoo Clock</string>
 </resources>
