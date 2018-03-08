@@ -1,5 +1,6 @@
 package com.mycabbages.teamavatar.ido;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +24,14 @@ public class NotifSettingsActivity extends AppCompatActivity
     private final String TAG = "NotifSettingsActivity";
     public EditText timePickerEditText;
     public Toolbar myToolbar;
+    private CheckBox mondayCheckbox;
+    private CheckBox tuesdayCheckbox;
+    private CheckBox wednesdayCheckbox;
+    private CheckBox thursdayCheckbox;
+    private CheckBox fridayCheckbox;
+    private CheckBox saturdayCheckbox;
+    private CheckBox sundayCheckbox;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +70,10 @@ public class NotifSettingsActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.done) {
             Log.d(TAG, "Done button tapped");
+
+            // return to main. This may need to be changed so we can return to calling activity.
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -72,6 +86,7 @@ public class NotifSettingsActivity extends AppCompatActivity
     public void getUIElements() {
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         timePickerEditText = (EditText) findViewById(R.id.timePickerEditText);
+        getCheckBoxes();
     }
 
     /**
@@ -103,4 +118,19 @@ public class NotifSettingsActivity extends AppCompatActivity
         // Set the text.
         timePickerEditText.setText(time);
     }
+
+    /**
+     * GET CHECK BOXES
+     * hook up activity variables to UI components
+     * */
+    public void getCheckBoxes() {
+        mondayCheckbox = (CheckBox) findViewById(R.id.mondayCheckbox);
+        tuesdayCheckbox = (CheckBox) findViewById(R.id.tuesdayCheckbox);
+        wednesdayCheckbox = (CheckBox) findViewById(R.id.wednesdayCheckbox);
+        thursdayCheckbox = (CheckBox) findViewById(R.id.thursdayCheckbox);
+        fridayCheckbox = (CheckBox) findViewById(R.id.fridayCheckBox);
+        saturdayCheckbox = (CheckBox) findViewById(R.id.saturdayCheckbox);
+        sundayCheckbox = (CheckBox) findViewById(R.id.sundayCheckbox);
+    }
+
 }
