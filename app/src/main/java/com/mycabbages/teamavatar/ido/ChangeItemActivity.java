@@ -16,7 +16,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class ChangeItemActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener,
         TimePickerFragment.TimePickerFragmentListener {
@@ -143,16 +146,101 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
      * */
     @Override
     public void onDateSet(Date date) {
-        Log.d(TAG, date.toString());
-        datePickerEditText.setText(date.toString());
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        String day;
+        String month;
+
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+            case 1:
+                day = "Sunday";
+                break;
+            case 2:
+                day = "Monday";
+                break;
+            case 3:
+                day = "Tuesday";
+                break;
+            case 4:
+                day = "Wednesday";
+                break;
+            case 5:
+                day = "Thursday";
+                break;
+            case 6:
+                day = "Friday";
+                break;
+            case 7:
+                day = "Saturday";
+                break;
+            default:
+                day = "Monday";
+        }
+
+        switch (calendar.get(Calendar.MONTH)) {
+            case 0:
+                month = "January";
+                break;
+            case 1:
+                month = "February";
+                break;
+            case 2:
+                month = "March";
+                break;
+            case 3:
+                month = "April";
+                break;
+            case 4:
+                month = "May";
+                break;
+            case 5:
+                month = "June";
+                break;
+            case 6:
+                month = "July";
+                break;
+            case 7:
+                month = "August";
+                break;
+            case 8:
+                month = "September";
+                break;
+            case 9:
+                month = "October";
+                break;
+            case 10:
+                month = "November";
+                break;
+            case 11:
+                month = "December";
+                break;
+            default:
+                month = "January";
+        }
+
+        String dateText = day + ", " + month + " " + calendar.get(Calendar.DAY_OF_MONTH);
+        datePickerEditText.setText(dateText);
     }
 
     /**
      * ON TIME SET
      * */
     @Override
-    public void onTimeSet(int hourOfDay, int minute) {
-        timePickerEditText.setText(hourOfDay + ":" + minute);
+    public void onTimeSet(Date date) {
+        // make a gregorian calendar object, set the time to passed in Date object
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        // Create a SimpleDateFormat object with format being "2:05" ("h:mm")
+        // https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+        SimpleDateFormat localDateFormat = new SimpleDateFormat("h:mm");
+
+        // Create a string of the chosen time from the passed in date, formatted correctly.
+        String time = localDateFormat.format(date);
+
+        // Set the text.
+        timePickerEditText.setText(time);
     }
 
     /**

@@ -11,6 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class NotifSettingsActivity extends AppCompatActivity
         implements TimePickerFragment.TimePickerFragmentListener {
 
@@ -78,8 +83,24 @@ public class NotifSettingsActivity extends AppCompatActivity
         Log.d(TAG, "timepicker was clicked");
     }
 
+    /**
+     * ON TIME SET
+     * Display the chosen time.
+     * */
     @Override
-    public void onTimeSet(int hourOfDay, int minute) {
-        timePickerEditText.setText(hourOfDay + ":" + minute);
+    public void onTimeSet(Date date) {
+        // make a gregorian calendar object, set the time to passed in Date object
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        // Create a SimpleDateFormat object with format being "2:05" ("h:mm")
+        // https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+        SimpleDateFormat localDateFormat = new SimpleDateFormat("h:mm");
+
+        // Create a string of the chosen time from the passed in date, formatted correctly.
+        String time = localDateFormat.format(date);
+
+        // Set the text.
+        timePickerEditText.setText(time);
     }
 }

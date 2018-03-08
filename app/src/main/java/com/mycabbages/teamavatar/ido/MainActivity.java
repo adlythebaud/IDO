@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Intent intent = new Intent(this, NotifSettingsActivity.class);
+        final Intent intent = new Intent(this, NewItemActivity.class);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,13 +75,16 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.user_list_item) {
             return true;
+        } else if (id == R.id.notifications_settings) {
+            Intent intent = new Intent(this, NotifSettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void button(View view) {
-        Intent intentToGoToAddActivity = new Intent(this, NotifSettingsActivity.class);
+        Intent intentToGoToAddActivity = new Intent(this, NewItemActivity.class);
         startActivity(intentToGoToAddActivity);
 
     }

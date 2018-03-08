@@ -25,7 +25,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
      * Implement methods to get date back from fragment.
      * */
     public interface TimePickerFragmentListener {
-        public void onTimeSet(int hourOfDay, int minute);
+        public void onTimeSet(Date date);
     }
 
     /**
@@ -60,13 +60,16 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // do something with the time selected by the user.
         Calendar c = Calendar.getInstance();
-        //c.set(hourOfDay, minute);
+        c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), hourOfDay, minute);
+
         Date date = c.getTime();
 
-        Log.d(TAG, hourOfDay + ":" + minute);
+        Log.d(TAG, c.getTime().toString());
+        Log.d(TAG, date.toString());
+//        Log.d(TAG, hourOfDay + ":" + minute);
 
         // Here we call the listener and pass the date back to it.
-        notifyTimePickerListener(hourOfDay, minute);
+        notifyTimePickerListener(date);
     }
 
     /**
@@ -85,13 +88,12 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     /**
      * NOTIFY TIME PICKER LISTENER
-     * @param hourOfDay - passed in date from fragment's implementation of onTimeSet.
-     * @param minute - passed in date from fragment's implementation of onTimeSet.
+     * @param date - passed in date from fragment's implementation of onTimeSet.
      * Calls the listener's implementation of onTimeSet with passed in parameter.
      * */
-    protected void notifyTimePickerListener(int hourOfDay, int minute) {
+    protected void notifyTimePickerListener(Date date) {
         if(this.timePickerListener != null) {
-            this.timePickerListener.onTimeSet(hourOfDay, minute);
+            this.timePickerListener.onTimeSet(date);
         }
     }
 

@@ -7,4 +7,8 @@
         android:id="@+id/user_list_item"
         android:title="@string/user_list" />
 
+    <item
+        android:id="@+id/notifications_settings"
+        android:title="@string/notif_settings" />
+
 </menu>
