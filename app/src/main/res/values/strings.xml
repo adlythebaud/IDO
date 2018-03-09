@@ -17,4 +17,19 @@
     <string name="notif_settings">Notification Settings</string>
     <string name="cancel">CANCEL</string>
     <string name="cuckoo_clock">Cuckoo Clock</string>
+
+    <string-array name="alarm_array">
+        <item>Bright morning</item>
+        <item>Cuckoo clock</item>
+        <item>Early twilight</item>
+        <item>Full of wonder</item>
+        <item>Gentle breeze</item>
+        <item>Icicles</item>
+        <item>Jump start</item>
+        <item>Loose change</item>
+        <item>A real hoot</item>
+        <item>Rolling fog</item>
+        <item>Spokes</item>
+        <item>Sunshower</item>
+    </string-array>
 </resources>

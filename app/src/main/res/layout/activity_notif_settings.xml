@@ -115,14 +115,11 @@
     </LinearLayout>
 
     <Spinner
-        android:id="@+id/alarm_button"
-
+        android:id="@+id/alarm_spinner"
         android:layout_width="124dp"
         android:layout_height="40dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/alarm_sound_icon"
-        android:text="@string/cuckoo_clock"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
@@ -135,7 +132,7 @@
         android:background="@android:color/holo_green_dark"
         android:text="@string/save_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarm_button" />
+        app:layout_constraintTop_toBottomOf="@+id/alarm_spinner" />
 
     <Button
         android:id="@+id/deleteButton"

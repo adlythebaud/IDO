@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +33,7 @@ public class NotifSettingsActivity extends AppCompatActivity
     private CheckBox fridayCheckbox;
     private CheckBox saturdayCheckbox;
     private CheckBox sundayCheckbox;
+    private Spinner mSpinner;
 
 
     @Override
@@ -87,6 +90,17 @@ public class NotifSettingsActivity extends AppCompatActivity
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         timePickerEditText = (EditText) findViewById(R.id.timePickerEditText);
         getCheckBoxes();
+        mSpinner = (Spinner) findViewById(R.id.alarm_spinner);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout:
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.alarm_array, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        mSpinner.setAdapter(adapter);
     }
 
     /**
