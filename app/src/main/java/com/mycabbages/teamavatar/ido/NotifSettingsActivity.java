@@ -147,4 +147,16 @@ public class NotifSettingsActivity extends AppCompatActivity
         sundayCheckbox = (CheckBox) findViewById(R.id.sundayCheckbox);
     }
 
+    /**
+     * SEND TEST NOTIFICATION
+     * testing out push notification functionality and frequency
+     * */
+    public void sendTestNotification(View view) {
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setSmallIcon(R.mipmap.ic_launcher_round)
+//                .setContentTitle("Test Notification!")
+//                .setContentText("This is a test notification. Does this work?")
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    }
+
 }
