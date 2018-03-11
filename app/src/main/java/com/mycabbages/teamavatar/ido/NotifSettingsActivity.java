@@ -186,6 +186,7 @@ public class NotifSettingsActivity extends AppCompatActivity
      * */
     public void sendTestNotification(View view) {
 
+        Log.d(TAG, "version: " + Build.VERSION.SDK_INT);
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -195,13 +196,14 @@ public class NotifSettingsActivity extends AppCompatActivity
         final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d(TAG, "version: " + Build.VERSION.SDK_INT);
             // Create the NotificationChannel, but only on API 26+ because
             // the NotificationChannel class is new and not in the support library
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManagerCompat.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name,
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    importance);
             channel.setDescription(description);
             // Register the channel with the system
 //            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -210,9 +212,8 @@ public class NotifSettingsActivity extends AppCompatActivity
             notificationManager.createNotificationChannel(channel);
 
         }
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.alarm_sound_icon) // icon must be right size for all supported APIs
                 .setContentTitle("IDO")
                 .setContentText("Become A Better Spouse Today!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
