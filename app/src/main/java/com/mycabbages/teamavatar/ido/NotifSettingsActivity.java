@@ -5,12 +5,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -192,49 +191,38 @@ public class NotifSettingsActivity extends AppCompatActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
-//                "some_channel_id")
-//                .setSmallIcon(R.mipmap.ic_launcher_round)
-//                .setContentTitle("Test Notification!")
-//                .setContentText("This is a test notification. Does this work?")
-//                .setStyle(new NotificationCompat.BigTextStyle()
-//                        .bigText("This is a test notification. Does this work?"))
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                .setAutoCancel(true);
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//
-//        // notificationId is a unique int for each notification that you must define
-//        notificationManager.notify(1, mBuilder.build());
-
         final int NOTIFICATION_ID = 1;
         final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
 
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+            // Create the NotificationChannel, but only on API 26+ because
+            // the NotificationChannel class is new and not in the support library
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManagerCompat.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(description);
+            // Register the channel with the system
+//            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
 
-            // Configure the notification channel.
-            notificationChannel.setDescription("Channel description");
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
-            notificationChannel.enableVibration(true);
-            notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setVibrate(new long[]{0, 100, 100, 100, 100, 100})
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Content Title")
-                .setContentText("Content Text");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("IDO")
+                .setContentText("Become A Better Spouse Today!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-
-
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
     }
 

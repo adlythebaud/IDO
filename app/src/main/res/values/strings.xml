@@ -17,6 +17,8 @@
     <string name="notif_settings">Notification Settings</string>
     <string name="cancel">CANCEL</string>
     <string name="cuckoo_clock">Cuckoo Clock</string>
+    <string name="channel_name">IDOChannel</string>
+    <string name="channel_description">This is the channel for IDO</string>
 
     <string-array name="alarm_array">
         <item>Bright morning</item>
