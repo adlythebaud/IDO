@@ -6,11 +6,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,7 +53,7 @@ public class NotifSettingsActivity extends AppCompatActivity
         getUIElements();
 
         // set up notifications
-        setUpNotificationChannel();
+//        setUpNotificationChannel();
 
         // set the toolbar as the action bar for the activity.
         setSupportActionBar(myToolbar);
@@ -173,10 +173,10 @@ public class NotifSettingsActivity extends AppCompatActivity
             CharSequence channelName = "Some Channel";
             int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.enableVibration(true);
-            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+//            notificationChannel.enableLights(true);
+//            notificationChannel.setLightColor(Color.RED);
+//            notificationChannel.enableVibration(true);
+//            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
@@ -192,20 +192,48 @@ public class NotifSettingsActivity extends AppCompatActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
-                "some_channel_id")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("Test Notification!")
-                .setContentText("This is a test notification. Does this work?")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("This is a test notification. Does this work?"))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
+//                "some_channel_id")
+//                .setSmallIcon(R.mipmap.ic_launcher_round)
+//                .setContentTitle("Test Notification!")
+//                .setContentText("This is a test notification. Does this work?")
+//                .setStyle(new NotificationCompat.BigTextStyle()
+//                        .bigText("This is a test notification. Does this work?"))
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                .setAutoCancel(true);
+//
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//
+//        // notificationId is a unique int for each notification that you must define
+//        notificationManager.notify(1, mBuilder.build());
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        final int NOTIFICATION_ID = 1;
+        final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
 
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(001, mBuilder.build());
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+
+            // Configure the notification channel.
+            notificationChannel.setDescription("Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setVibrate(new long[]{0, 100, 100, 100, 100, 100})
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Content Title")
+                .setContentText("Content Text");
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+
 
 
     }
