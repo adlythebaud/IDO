@@ -22,6 +22,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,12 +43,15 @@ public class NotifSettingsActivity extends AppCompatActivity
     private CheckBox saturdayCheckbox;
     private CheckBox sundayCheckbox;
     private Spinner mSpinner;
+    private FirebaseDatabase mDatabase;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notif_settings);
+
+        mDatabase = FirebaseDatabase.getInstance();
 
         // get UI elements
         getUIElements();
@@ -178,6 +183,13 @@ public class NotifSettingsActivity extends AppCompatActivity
 //            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             notificationManager.createNotificationChannel(notificationChannel);
         }
+    }
+
+    /**
+     * send a cloud function notification that something happened...
+     * */
+    public void sendCloudNotification(View view) {
+        mDatabase.getReference("daily").push().setValue(new String("hello world"));
     }
 
     /**
