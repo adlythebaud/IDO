@@ -21,7 +21,6 @@
     <string name="channel_description">This is the channel for IDO</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -29,6 +28,8 @@
     <string name="sign_in">Sign In</string>
     <string name="TextView_1_Sign_In">Don\'t Have An Account?</string>
     <string name="TextView_1_Sign_Up">Already Have An Account?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
 
     <string-array name="alarm_array">
         <item>Bright morning</item>
