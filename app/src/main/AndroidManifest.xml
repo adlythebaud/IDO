@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--MAIN ACTIVITY-->
+        <!-- MAIN ACTIVITY -->
         <activity
             android:name=".MainActivity"
             android:label=""
@@ -22,8 +22,7 @@
             </intent-filter>
         </activity>
 
-
-        <!--ADD ITEM ACTIVITY-->
+        <!-- ADD ITEM ACTIVITY -->
         <activity
             android:name=".AddItemActivity"
             android:label="@string/title_activity_add_item"
@@ -34,35 +33,33 @@
                 android:value="com.mycabbages.teamavatar.ido.MainActivity" />
         </activity>
 
-        <!--NEW ITEM ACTIVITY-->
+        <!-- NEW ITEM ACTIVITY -->
         <activity
             android:name=".NewItemActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--CHANGE ITEM ACTIVITY-->
+        <!-- CHANGE ITEM ACTIVITY -->
         <activity
             android:name=".ChangeItemActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--USER LIST ACTIVITY-->
+        <!-- USER LIST ACTIVITY -->
         <activity android:name=".UserListActivity" />
 
-        <!--NOTIF SETTINGS ACTIVITY-->
+        <!-- NOTIF SETTINGS ACTIVITY -->
         <activity
             android:name=".NotifSettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- Parent activity meta-data to support 4.0 and lower -->
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.mycabbages.teamavatar.ido.MainActivity" />
 
+        <activity android:name=".LoginSignUpActivity"></activity>
     </application>
 
 </manifest>
