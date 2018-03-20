@@ -320,6 +320,9 @@ public class LoginSignUpActivity extends AppCompatActivity {
         startActivity(intentToStartMainActivity);
     }
 
+    /**
+     * Hook up all UI Elements
+     * */
     public void getUIElements() {
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
@@ -402,21 +405,25 @@ public class LoginSignUpActivity extends AppCompatActivity {
             showPasswordResetUI.setClickable(true);
         }
 
+        if (showSignInUI.getVisibility() == VISIBLE) {
+            showSignInUI.setVisibility(GONE);
+            showSignInUI.setClickable(false);
+        }
+
         if (showSignUpUI.getVisibility() == GONE) {
             showSignUpUI.setVisibility(VISIBLE);
             showSignUpUI.setClickable(true);
         }
 
-        if (showSignUpUI.getVisibility() == VISIBLE) {
-            showSignUpUI.setVisibility(GONE);
-            showSignUpUI.setClickable(false);
-        }
-
-        //TODO: Change constraints for showsignupUI
+        // move sign up UI tetview to the right place by changing constraints.
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(loginConstraintLayout);
+        constraintSet.connect(R.id.showPasswordResetUI,ConstraintSet.TOP,
+                R.id.showSignUpUI,ConstraintSet.BOTTOM,8);
+        constraintSet.applyTo(loginConstraintLayout);
 
 
         authButton.setText(R.string.sign_in);
-
 
         activityState = SignInState.SIGNIN;
     }
