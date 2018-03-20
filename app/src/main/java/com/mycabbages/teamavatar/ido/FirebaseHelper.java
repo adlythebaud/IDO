@@ -17,7 +17,7 @@ import java.util.concurrent.Executor;
  * Created by adlythebaud on 3/20/18.
  */
 
-public class FirebaseHelper {
+public class FirebaseHelper implements Executor {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;        // this is our database reference.
@@ -36,10 +36,10 @@ public class FirebaseHelper {
      * SIGN UP USER
      * Signs the user up as a new user and adds them to database.
      * */
-    public void signUpUser(final String firstName, final String lastName, final String email, final String password) {
+    public void signUpUser(String firstName, String lastName, String email, String password) {
         // sign the user up with firebase helper code, then add the user to realtime database
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -61,7 +61,7 @@ public class FirebaseHelper {
 
     public void signInUser(final String email, final String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -73,11 +73,23 @@ public class FirebaseHelper {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithEmail:failure", task.getException());
 
-
                         }
 
                         // ...
                     }
                 });
+    }
+
+    /**
+     * SIGN OUT
+     * Sign out of current session.
+     * */
+    public void signOut() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    @Override
+    public void execute(@NonNull Runnable command) {
+        Log.d(TAG, "trying to execute...");
     }
 }
