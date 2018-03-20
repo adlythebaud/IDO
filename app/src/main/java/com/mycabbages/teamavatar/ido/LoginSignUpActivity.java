@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,7 @@ import static android.view.View.VISIBLE;
  * LOGIN ACTIVITY
  */
 public class LoginSignUpActivity extends AppCompatActivity {
-    public final static String LOGINLOG = "Login_log";
+    public final static String TAG = "LoginSignUpActivity";
 
 //    private FirebaseAuth myAuth;
 //    public FirebaseAuth.AuthStateListener mAuthListener;
@@ -33,6 +34,9 @@ public class LoginSignUpActivity extends AppCompatActivity {
     private TextView showPasswordResetUI;
     private SignInState activityState;
     private ConstraintLayout loginConstraintLayout;
+    private FirebaseHelper firebaseHelper;
+
+
 
 
     @Override
@@ -40,6 +44,9 @@ public class LoginSignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
         getUIElements();
+        firebaseHelper = new FirebaseHelper();
+        activityState = SignInState.SIGNUP;
+
 //        myAuth = FirebaseAuth.getInstance();
 
 
@@ -49,33 +56,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
         // now all calls to FirebaseDatabase are called with mDatabase.
 
-
-//        View.OnClickListener displaySignUpUI = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                displaySignUpUI();
-//            }
-//        };
-//
-//        View.OnClickListener displaySignInUI = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                displaySignInUI();
-//            }
-//        };
-//
-//        View.OnClickListener displayPasswordResetUI = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                displayPasswordResetUI();
-//            }
-//        };
-//
-//        textView1.setOnClickListener(displaySignUpUI);
-//        textView2.setOnClickListener(displayPasswordResetUI);
-//        displaySignInUI();
     }
 
+    /**
+     * ON START
+     * Check if the user is already signed in here.
+     * */
     @Override
     protected void onStart() {
         super.onStart();
@@ -310,10 +296,41 @@ public class LoginSignUpActivity extends AppCompatActivity {
     /*
      * Start intent to go to next activity after successful login and sign up.
      */
-    public void goToHome(View view) {
-        EditText passwordTextBox = findViewById(R.id.passwordEditText);
-        passwordTextBox.setText("");
 
+
+    /**
+     * AUTHENTICATE
+     * Respond to large button being tapped
+     * */
+    public void authenticate(View view) {
+        switch (activityState) {
+            case SIGNUP:
+                    Log.d(TAG, "Signing up");
+                    firebaseHelper.signUpUser(firstNameEditText.getText().toString(), lastNameEditText.getText().toString(),
+                            emailEditText.getText().toString(), passwordEditText.getText().toString());
+                    goToHome();
+                break;
+            case SIGNIN:
+                Log.d(TAG, "Signing in");
+                firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                goToHome();
+                break;
+            case PASSWORDRESET:
+                Log.d(TAG, "Resetting password");
+                //TODO: Use server side code to sign in a user.
+                break;
+            default:
+                Log.d(TAG, "nothing happened");
+
+        }
+    }
+
+    /**
+     * GO TO HOME
+     * Starts intent to MainActivity
+     * */
+    public void goToHome() {
+        Log.d(TAG, "Intent to home called");
         // send coupleID and userID across activities.
         Intent intentToStartMainActivity = new Intent(this,
                 MainActivity.class);
@@ -321,6 +338,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
     }
 
     /**
+     * GET UI ELEMENTS
      * Hook up all UI Elements
      * */
     public void getUIElements() {
@@ -336,9 +354,11 @@ public class LoginSignUpActivity extends AppCompatActivity {
     }
 
     /**
+     * DISPLAY SIGN UP UI
      * Changes the UI to display credentials necessary for signing up.
      * */
     public void displaySignUpUI(View view) {
+        Log.d(TAG,"Displaying Sign Up UI");
         if (firstNameEditText.getVisibility() == GONE) {
             // make firstNameEditText gone, unclickable, unfocusable
             firstNameEditText.setVisibility(VISIBLE);
@@ -372,16 +392,21 @@ public class LoginSignUpActivity extends AppCompatActivity {
             showSignInUI.setClickable(true);
         }
 
+        // change auth button text
         authButton.setText(R.string.sign_up);
-
-
+        // set the activity state
         activityState = SignInState.SIGNUP;
+        Log.d(TAG, activityState.toString());
+
+
     }
 
     /**
+     * DISPLAY SIGN IN UI
      * Changes the UI to display credentials necessary for signing in.
      * */
     public void displaySignInUI(View view) {
+        Log.d(TAG,"Displaying Sign In UI");
         if (firstNameEditText.getVisibility() == VISIBLE) {
             // make firstNameEditText gone, unclickable, unfocusable
             firstNameEditText.setVisibility(GONE);
@@ -422,13 +447,18 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 R.id.showSignUpUI,ConstraintSet.BOTTOM,8);
         constraintSet.applyTo(loginConstraintLayout);
 
-
+        // change auth button text
         authButton.setText(R.string.sign_in);
-
+        // set the activity state
         activityState = SignInState.SIGNIN;
+        Log.d(TAG, activityState.toString());
     }
 
+    /**
+     * DISPLAY PASSWORD RESET UI
+     * */
     public void displayPasswordResetUI(View view) {
+        Log.d(TAG, "Displaying password reset UI");
         if (firstNameEditText.getVisibility() == VISIBLE) {
             // make firstNameEditText gone, unclickable, unfocusable
             firstNameEditText.setVisibility(GONE);
@@ -469,13 +499,11 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 R.id.showSignInUI,ConstraintSet.BOTTOM,8);
         constraintSet.applyTo(loginConstraintLayout);
 
-        // set the activity state
-        activityState = SignInState.PASSWORDRESET;
-
         // change main button text
         authButton.setText(R.string.reset_password);
-
-
+        // set the activity state
+        activityState = SignInState.PASSWORDRESET;
+        Log.d(TAG, activityState.toString());
     }
 
 }
