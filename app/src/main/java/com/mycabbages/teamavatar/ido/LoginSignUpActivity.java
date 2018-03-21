@@ -115,31 +115,37 @@ public class LoginSignUpActivity extends AppCompatActivity {
     public void displaySignUpUI(View view) {
         Log.d(TAG,"Displaying Sign Up UI");
 
-        // make firstNameEditText gone, unclickable, unfocusable
-        firstNameEditText.setVisibility(VISIBLE);
-        firstNameEditText.setClickable(true);
-        firstNameEditText.setFocusable(true);
+        // make emailEditText visible and editable
+        emailEditText.setVisibility(VISIBLE);
 
-        // make lastNameEditText gone, unclickable, unfocusable
-        lastNameEditText.setVisibility(VISIBLE);
-        lastNameEditText.setClickable(true);
-        lastNameEditText.setFocusable(true);
-
+        // make passwordEditText visible and editable
         passwordEditText.setVisibility(VISIBLE);
-        passwordEditText.setClickable(true);
-        passwordEditText.setFocusable(true);
+
+        // make firstNameEditText visible and editable
+        firstNameEditText.setVisibility(VISIBLE);
+
+        // make lastNameEditText visible and editable
+        lastNameEditText.setVisibility(VISIBLE);
 
         showSignInUI.setVisibility(VISIBLE);
         showSignInUI.setClickable(true);
+        showSignInUI.setEnabled(true);
 
         showPasswordResetUI.setVisibility(VISIBLE);
         showPasswordResetUI.setClickable(true);
+        showPasswordResetUI.setEnabled(true);
 
         showSignUpUI.setVisibility(GONE);
         showSignUpUI.setClickable(false);
+        showSignUpUI.setEnabled(false);
 
 
         //TODO: Make sure constraints are properly set up
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(loginConstraintLayout);
+        constraintSet.connect(R.id.showPasswordResetUI,ConstraintSet.TOP,
+                R.id.showSignInUI,ConstraintSet.BOTTOM,8);
+        constraintSet.applyTo(loginConstraintLayout);
 
         // change auth button text
         authButton.setText(R.string.sign_up);
@@ -157,32 +163,30 @@ public class LoginSignUpActivity extends AppCompatActivity {
     public void displaySignInUI(View view) {
         Log.d(TAG,"Displaying Sign In UI");
 
+        // make emailEditText visible and editable
+        emailEditText.setVisibility(VISIBLE);
+
+        // make passwordEditText visible and editable
+        passwordEditText.setVisibility(VISIBLE);
+
         // make firstNameEditText gone, unclickable, unfocusable
         firstNameEditText.setVisibility(GONE);
-        firstNameEditText.setClickable(false);
-        firstNameEditText.setFocusable(false);
 
         // make lastNameEditText gone, unclickable, unfocusable
         lastNameEditText.setVisibility(GONE);
-        lastNameEditText.setClickable(false);
-        lastNameEditText.setFocusable(false);
 
-        emailEditText.setVisibility(VISIBLE);
-        emailEditText.setClickable(true);
-        emailEditText.setFocusable(true);
-
-        passwordEditText.setVisibility(VISIBLE);
-        passwordEditText.setClickable(true);
-        passwordEditText.setFocusable(true);
 
         showPasswordResetUI.setVisibility(VISIBLE);
         showPasswordResetUI.setClickable(true);
+        showPasswordResetUI.setEnabled(true);
 
         showSignUpUI.setVisibility(VISIBLE);
         showSignUpUI.setClickable(true);
+        showSignUpUI.setEnabled(true);
 
         showSignInUI.setVisibility(GONE);
         showSignInUI.setClickable(false);
+        showSignInUI.setEnabled(false);
 
 
 
@@ -193,6 +197,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         constraintSet.connect(R.id.showPasswordResetUI,ConstraintSet.TOP,
                 R.id.showSignUpUI,ConstraintSet.BOTTOM,8);
         constraintSet.applyTo(loginConstraintLayout);
+
 
         // change auth button text
         authButton.setText(R.string.sign_in);
@@ -209,34 +214,29 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
         // make firstNameEditText gone, unclickable, unfocusable
         firstNameEditText.setVisibility(GONE);
-        firstNameEditText.setClickable(false);
-        firstNameEditText.setFocusable(false);
 
         // make lastNameEditText gone, unclickable, unfocusable
         lastNameEditText.setVisibility(GONE);
-        lastNameEditText.setClickable(false);
-        lastNameEditText.setFocusable(false);
 
         // make passwordEditText gone, unclickable, unfocusable
         passwordEditText.setVisibility(GONE);
-        passwordEditText.setClickable(false);
-        passwordEditText.setFocusable(false);
 
         emailEditText.setVisibility(VISIBLE);
-        emailEditText.setClickable(true);
-        emailEditText.setFocusable(true);
 
         // show sign in UI textview
         showSignInUI.setVisibility(VISIBLE);
         showSignInUI.setClickable(true);
+        showSignInUI.setEnabled(true);
 
         // show sign up UI textview underneath it
         showSignUpUI.setVisibility(VISIBLE);
         showSignUpUI.setClickable(true);
+        showSignUpUI.setEnabled(true);
 
         // hide password reset UI textview;
         showPasswordResetUI.setVisibility(GONE);
         showPasswordResetUI.setClickable(false);
+        showPasswordResetUI.setEnabled(false);
 
         //TODO: Make sure constraints are properly set up
         // move sign up UI tetview to the right place by changing constraints.
