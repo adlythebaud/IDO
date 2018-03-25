@@ -61,8 +61,19 @@ public class LoginSignUpActivity extends AppCompatActivity {
         switch (activityState) {
             case SIGNUP:
                     Log.d(TAG, "Signing up");
-                    firebaseHelper.signUpUser(firstNameEditText.getText().toString(), lastNameEditText.getText().toString(),
-                            emailEditText.getText().toString(), passwordEditText.getText().toString());
+
+                    // Sign up user
+                    firebaseHelper.signUpUser(firstNameEditText.getText().toString(),
+                            lastNameEditText.getText().toString(),
+                            emailEditText.getText().toString(),
+                            passwordEditText.getText().toString());
+
+                    // add user to database
+                    firebaseHelper.addUserToDatabase(firstNameEditText.getText().toString(),
+                            lastNameEditText.getText().toString(),
+                            emailEditText.getText().toString());
+
+                    // go to home screen UI
                     goToHome();
                 break;
             case SIGNIN:
@@ -140,7 +151,8 @@ public class LoginSignUpActivity extends AppCompatActivity {
         showSignUpUI.setEnabled(false);
 
 
-        //TODO: Make sure constraints are properly set up
+        // Make sure constraints are properly set up
+        // Move showPasswordResetUI textview to right place in UI.
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(loginConstraintLayout);
         constraintSet.connect(R.id.showPasswordResetUI,ConstraintSet.TOP,
@@ -190,7 +202,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
 
 
 
-        //TODO: Make sure constraints are properly set up
+        // Make sure constraints are properly set up
         // move sign up UI tetview to the right place by changing constraints.
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(loginConstraintLayout);
@@ -238,7 +250,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         showPasswordResetUI.setClickable(false);
         showPasswordResetUI.setEnabled(false);
 
-        //TODO: Make sure constraints are properly set up
+        // Make sure constraints are properly set up
         // move sign up UI tetview to the right place by changing constraints.
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(loginConstraintLayout);

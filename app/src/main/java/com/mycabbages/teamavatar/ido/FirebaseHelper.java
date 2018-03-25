@@ -36,7 +36,7 @@ public class FirebaseHelper implements Executor {
      * SIGN UP USER
      * Signs the user up as a new user and adds them to database.
      * */
-    public void signUpUser(String firstName, String lastName, String email, String password) {
+    public void signUpUser(final String firstName, final String lastName, final String email, String password) {
         // sign the user up with firebase helper code, then add the user to realtime database
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -45,13 +45,13 @@ public class FirebaseHelper implements Executor {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            // updateUI(user);
-                            //TODO: Add user to database here
-                            //addUserToDatabase(firstName, lastName, email);
+//                            FirebaseUser user = mAuth.getCurrentUser();
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            //TODO: recover from auth failure gracefully
                         }
 
                         // ...
@@ -68,11 +68,11 @@ public class FirebaseHelper implements Executor {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             // FirebaseUser user = mAuth.getCurrentUser();
-
+                            //TODO: set up users' UI with correct goals.
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithEmail:failure", task.getException());
-
+                            //TODO: recover from auth failure gracefully
                         }
 
                         // ...
@@ -91,5 +91,25 @@ public class FirebaseHelper implements Executor {
     @Override
     public void execute(@NonNull Runnable command) {
         Log.d(TAG, "trying to execute...");
+    }
+
+    /**
+    * Adds a new user to realtime database
+    */
+    public void addUserToDatabase(String firstName, String lastName, String email) {
+
+        Log.d(TAG, "adding new user to database");
+        // Create a User object to store in the database
+        final User user = new User(firstName, lastName, email);
+
+        // create a new reference under the users in FB, add the user to the database
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        //TODO: make sure the Uid in database and authentication pages are the same per user.
+        final DatabaseReference userRef = mDatabase.child("users").child(mUser.getUid());
+
+        // save this new user in firebase database tree under "users" child tree.
+        userRef.setValue(user);
+
     }
 }
