@@ -78,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.notifications_settings) {
             Intent intent = new Intent(this, NotifSettingsActivity.class);
             startActivity(intent);
+        } else if (id == R.id.sign_out) {
+            FirebaseHelper firebaseHelper = new FirebaseHelper();
+            firebaseHelper.signOut();
+            Intent intent = new Intent(this,
+                    LoginSignUpActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

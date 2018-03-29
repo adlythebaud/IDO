@@ -42,7 +42,10 @@ public class LoginSignUpActivity extends AppCompatActivity {
         firebaseHelper = new FirebaseHelper();
         activityState = SignInState.SIGNUP;
         Log.d(TAG, activityState.toString());
+
     }
+
+
 
     /**
      * ON START
@@ -51,6 +54,9 @@ public class LoginSignUpActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (firebaseHelper.isUserSignedIn()) {
+            Log.d(TAG, "user is already signed in!");
+        }
     }
 
     /**
@@ -69,9 +75,9 @@ public class LoginSignUpActivity extends AppCompatActivity {
                             passwordEditText.getText().toString());
 
                     // add user to database
-                    firebaseHelper.addUserToDatabase(firstNameEditText.getText().toString(),
-                            lastNameEditText.getText().toString(),
-                            emailEditText.getText().toString());
+//                    firebaseHelper.addUserToDatabase(firstNameEditText.getText().toString(),
+//                            lastNameEditText.getText().toString(),
+//                            emailEditText.getText().toString());
 
                     // go to home screen UI
                     goToHome();
@@ -98,9 +104,17 @@ public class LoginSignUpActivity extends AppCompatActivity {
     public void goToHome() {
         Log.d(TAG, "Intent to home called");
         // send coupleID and userID across activities.
+
+        // clear all editText elements
+        firstNameEditText.setText("");
+        lastNameEditText.setText("");
+        emailEditText.setText("");
+        passwordEditText.setText("");
+
         Intent intentToStartMainActivity = new Intent(this,
                 MainActivity.class);
         startActivity(intentToStartMainActivity);
+
     }
 
     /**

@@ -11,4 +11,9 @@
         android:id="@+id/notifications_settings"
         android:title="@string/notif_settings" />
 
+    <item
+        android:id="@+id/sign_out"
+        android:title="@string/sign_out"
+        />
+
 </menu>
