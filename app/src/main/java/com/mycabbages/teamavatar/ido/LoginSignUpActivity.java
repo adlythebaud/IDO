@@ -42,10 +42,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         firebaseHelper = new FirebaseHelper();
         activityState = SignInState.SIGNUP;
         Log.d(TAG, activityState.toString());
-
     }
-
-
 
     /**
      * ON START
@@ -56,6 +53,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         super.onStart();
         if (firebaseHelper.isUserSignedIn()) {
             Log.d(TAG, "user is already signed in!");
+            goToHome();
         }
     }
 
@@ -68,19 +66,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
             case SIGNUP:
                     Log.d(TAG, "Signing up");
 
-                    // Sign up user
+                    // Sign up user and add them to database.
                     firebaseHelper.signUpUser(firstNameEditText.getText().toString(),
                             lastNameEditText.getText().toString(),
                             emailEditText.getText().toString(),
                             passwordEditText.getText().toString());
-
-                    // add user to database
-                    firebaseHelper.addUserToDatabase(firstNameEditText.getText().toString(),
-                            lastNameEditText.getText().toString(),
-                            emailEditText.getText().toString());
-
                     // go to home screen UI
-
                     goToHome();
                 break;
             case SIGNIN:

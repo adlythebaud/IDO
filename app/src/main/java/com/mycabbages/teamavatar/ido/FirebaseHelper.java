@@ -4,10 +4,12 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -54,7 +56,36 @@ public class FirebaseHelper implements Executor {
 
                         // ...
                     }
-                });
+                    // add user to database and set their display name.
+                }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        mUser = mAuth.getCurrentUser();
+                        if (mUser != null) {
+                            Log.d(TAG, "user is logged in, " +
+                                    "auth state changed, adding them to database");
+                            // access currently signed in user here...
+
+                            // set the user's display name
+                            UserProfileChangeRequest profileUpdates =
+                                    new UserProfileChangeRequest.Builder().
+                                            setDisplayName(firstName + " " + lastName).build();
+
+                            mUser.updateProfile(profileUpdates);
+
+                            final User user = new User(firstName, lastName, email);
+
+                            final DatabaseReference userRef = mDatabase
+                                    .child("users")
+                                    .child(mUser.getUid());
+
+                            // save this new user in database under "users" node.
+                            userRef.setValue(user);
+                        } else {
+                            Log.d(TAG, "user is not signed in...");
+                        }
+                    }
+        });
 
     }
 
@@ -78,6 +109,7 @@ public class FirebaseHelper implements Executor {
                     }
                 });
 
+
     }
 
     /**
@@ -86,6 +118,7 @@ public class FirebaseHelper implements Executor {
      * */
     public boolean isUserSignedIn() {
         if (mAuth.getCurrentUser() != null) {
+            Log.d(TAG, mAuth.getCurrentUser().getEmail());
             return true;
         } else {
             return false;
@@ -97,41 +130,9 @@ public class FirebaseHelper implements Executor {
      * Sign out of current session.
      * */
     public void signOut() {
-        FirebaseAuth.getInstance().signOut();
+        mAuth.signOut();
     }
 
-    /**
-     * Adds user to realtime database
-     * this should go in a script... for a cloud function.
-     * */
-    public void addUserToDatabase(final String firstName, final String lastName, final String email) {
-
-        Log.d(TAG, "adding new user to database");
-        // this should be an onsuccesslistener
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                mUser = mAuth.getCurrentUser();
-                if (mUser != null) {
-                    Log.d(TAG, "user is logged in, auth state changed, adding them to database");
-                    // access currently signed in user here...
-                    final User user = new User(firstName, lastName, email);
-                    final DatabaseReference userRef = mDatabase
-                            .child("users")
-                            .child(mUser.getUid());
-
-                    // save this new user in database under "users" node.
-                    userRef.setValue(user);
-                } else {
-                    Log.d(TAG, "user is not signed in...");
-                }
-            }
-        };
-        mAuth.addAuthStateListener(mAuthListener);
-
-
-    }
 
     @Override
     public void execute(@NonNull Runnable command) {

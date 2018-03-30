@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
             "Take your wife out on a fancy date, secure a baby sitter",
             "Send a small thinking of you gift, something small yet meaningful"
     };
+    private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     @Override
