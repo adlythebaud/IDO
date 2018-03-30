@@ -24,6 +24,7 @@ public class FirebaseHelper implements Executor {
     private FirebaseUser mUser;
     private final String TAG = "FirebaseHelper";
 
+
     public FirebaseHelper() {
         mAuth = FirebaseAuth.getInstance();
         // set your DatabaseReference object to our current database.
@@ -43,8 +44,8 @@ public class FirebaseHelper implements Executor {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
 
+                            Log.d(TAG, "createUserWithEmail:success");
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -54,7 +55,7 @@ public class FirebaseHelper implements Executor {
                         // ...
                     }
                 });
-        addUserToDatabase(firstName, lastName, email);
+
     }
 
     public void signInUser(final String email, final String password) {
@@ -76,6 +77,7 @@ public class FirebaseHelper implements Executor {
                         // ...
                     }
                 });
+
     }
 
     /**
@@ -90,7 +92,6 @@ public class FirebaseHelper implements Executor {
         }
     }
 
-
     /**
      * SIGN OUT
      * Sign out of current session.
@@ -103,22 +104,32 @@ public class FirebaseHelper implements Executor {
      * Adds user to realtime database
      * this should go in a script... for a cloud function.
      * */
-    public void addUserToDatabase(String firstName, String lastName, String email) {
+    public void addUserToDatabase(final String firstName, final String lastName, final String email) {
 
         Log.d(TAG, "adding new user to database");
+        // this should be an onsuccesslistener
 
-        // Create a User object to store in the database
-        final User user = new User(firstName, lastName, email);
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                mUser = mAuth.getCurrentUser();
+                if (mUser != null) {
+                    Log.d(TAG, "user is logged in, auth state changed, adding them to database");
+                    // access currently signed in user here...
+                    final User user = new User(firstName, lastName, email);
+                    final DatabaseReference userRef = mDatabase
+                            .child("users")
+                            .child(mUser.getUid());
 
-        // create a new reference under the users in FB, add the user to the database
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-        Log.d(TAG, mUser.getUid());
+                    // save this new user in database under "users" node.
+                    userRef.setValue(user);
+                } else {
+                    Log.d(TAG, "user is not signed in...");
+                }
+            }
+        };
+        mAuth.addAuthStateListener(mAuthListener);
 
-//        //TODO: make sure the Uid in database and authentication pages are the same per user.
-//        final DatabaseReference userRef = mDatabase.child("users").child(mUser.getUid()).push();
-//
-//        // save this new user in firebase database tree under "users" child tree.
-//        userRef.setValue(user);
 
     }
 

@@ -19,7 +19,24 @@ exports.sendNotification = functions.database.ref("daily")
 
 exports.addToDatabase = functions.auth.user().onCreate(function(event) {
     // get the uUID
+
     var uid = event.data.uid;
 
+    var user = event.data;
+//
+//    if (user != null) {
+//        user.updateProfile({
+//            displayName: name
+//        }).then(function() {
+//            console.log("update to user profile successful");
+//        }).catch(function(error) {
+//            console.log("update to user profile failed");
+//        });
+//    }
+
+    // var newUserNode = admin.database.ref('/users/{uid}');
+
+//    newUserNode.set(user);
+    return null;
 
 });

@@ -75,11 +75,12 @@ public class LoginSignUpActivity extends AppCompatActivity {
                             passwordEditText.getText().toString());
 
                     // add user to database
-//                    firebaseHelper.addUserToDatabase(firstNameEditText.getText().toString(),
-//                            lastNameEditText.getText().toString(),
-//                            emailEditText.getText().toString());
+                    firebaseHelper.addUserToDatabase(firstNameEditText.getText().toString(),
+                            lastNameEditText.getText().toString(),
+                            emailEditText.getText().toString());
 
                     // go to home screen UI
+
                     goToHome();
                 break;
             case SIGNIN:
