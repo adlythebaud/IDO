@@ -192,10 +192,7 @@ public class NotifSettingsActivity extends AppCompatActivity
         mDatabase.getReference("daily").push().setValue(new String("hello world"));
     }
 
-    /**
-     * SEND TEST NOTIFICATION
-     * testing out push notification functionality and frequency
-     * */
+
     public void sendTestNotification(View view) {
 
         Log.d(TAG, "version: " + Build.VERSION.SDK_INT);

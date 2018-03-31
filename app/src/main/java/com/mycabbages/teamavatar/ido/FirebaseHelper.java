@@ -36,6 +36,10 @@ public class FirebaseHelper implements Executor {
     /**
      * SIGN UP USER
      * Signs the user up as a new user and adds them to database.
+     * @param email user's email address
+     * @param password user's password
+     * @param firstName user's firstname needed for displayname
+     * @param lastName user's lastname needed for displayname
      * */
     public void signUpUser(final String firstName, final String lastName, final String email, String password) {
         Log.d(TAG, "signing up user");
@@ -54,18 +58,17 @@ public class FirebaseHelper implements Executor {
                             //TODO: recover from auth failure gracefully
                         }
 
-                        // ...
                     }
+
                     // add user to database and set their display name.
                 }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
+                        // access currently signed in user here...
                         mUser = mAuth.getCurrentUser();
                         if (mUser != null) {
                             Log.d(TAG, "user is logged in, " +
                                     "auth state changed, adding them to database");
-                            // access currently signed in user here...
-
                             // set the user's display name
                             UserProfileChangeRequest profileUpdates =
                                     new UserProfileChangeRequest.Builder().
@@ -89,6 +92,11 @@ public class FirebaseHelper implements Executor {
 
     }
 
+    /**
+     * SIGN IN USER
+     * @param email
+     * @param password
+     * */
     public void signInUser(final String email, final String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
@@ -105,7 +113,6 @@ public class FirebaseHelper implements Executor {
                             //TODO: recover from auth failure gracefully
                         }
 
-                        // ...
                     }
                 });
 
@@ -134,6 +141,10 @@ public class FirebaseHelper implements Executor {
     }
 
 
+    /**
+     * EXECUTE
+     * needed for Executor interface
+     * */
     @Override
     public void execute(@NonNull Runnable command) {
         Log.d(TAG, "trying to execute...");
