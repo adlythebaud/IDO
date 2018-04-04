@@ -11,11 +11,13 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-exports.sendNotification = functions.auth.user().onCreate(function(event) {
+exports.sendNotif = functions.auth.user().onCreate((user) => {
+
+//exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
+//    .onWrite((change, context) => {
         console.log("new user created");
         //TODO: register this user to receive a push notification every night. test sending 2 notifs.
-        var uid = event.data.uid;
-        var user = event.data;
+        var uid = user.uid;
         const promises = [];
 
 
@@ -27,10 +29,11 @@ exports.sendNotification = functions.auth.user().onCreate(function(event) {
         };
 
         admin.messaging().sendToDevice(uid, payload)
-            .then(function (response) {
+            .then(function(response) {
                 console.log("Successfully sent message:", response);
+                return null;
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log("Error sending message:", error);
             });
 
