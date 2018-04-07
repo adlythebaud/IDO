@@ -69,10 +69,9 @@ class PushNotification extends ContextWrapper {
             if (notificationManager == null) {
 
                 // get access to Notification Service through a Notification Manager object
-                notificationManager =
-                       (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-               int importance = NotificationManager.IMPORTANCE_LOW;
+               int importance = NotificationManager.IMPORTANCE_HIGH;
 
                 NotificationChannel notificationChannel =
                         new NotificationChannel(channelId, channelName, importance);
@@ -99,11 +98,12 @@ class PushNotification extends ContextWrapper {
         final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.alarm_sound_icon) // icon must be right size for all supported APIs
-                .setContentTitle("IDO")
-                .setContentText("Become A Better Spouse Today!")
+                .setSmallIcon(R.drawable.alarm_sound_icon) // icon must be right size for all supported APIs. Icon is changeable
+                .setContentTitle("IDO") // changeable
+                .setContentText("Become A Better Spouse Today!") // changeable
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
