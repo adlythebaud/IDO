@@ -1,15 +1,8 @@
 package com.mycabbages.teamavatar.ido;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +37,7 @@ public class NotifSettingsActivity extends AppCompatActivity
     private CheckBox sundayCheckbox;
     private Spinner mSpinner;
     private FirebaseDatabase mDatabase;
+    private PushNotification pushNotification;
 
 
     @Override
@@ -70,6 +64,8 @@ public class NotifSettingsActivity extends AppCompatActivity
 
         // Display back arrow (up button) in top left and enable it.
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        pushNotification = new PushNotification(this);
     }
 
     @Override
@@ -164,76 +160,10 @@ public class NotifSettingsActivity extends AppCompatActivity
     }
 
     /**
-     * Set up notifications from the app.
+     * SAVE BUTTON
      * */
-    public void setUpNotificationChannel() {
-        Log.d(TAG, "Build.version.SDK_INT: " + Build.VERSION.SDK_INT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            // get access to Notification Service through a Notification Manager object
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            String channelId = "some_channel_id";
-            CharSequence channelName = "Some Channel";
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
-//            notificationChannel.enableLights(true);
-//            notificationChannel.setLightColor(Color.RED);
-//            notificationChannel.enableVibration(true);
-//            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-    }
-
-    /**
-     * send a cloud function notification that something happened...
-     * */
-    public void sendCloudNotification(View view) {
-        mDatabase.getReference("daily").push().setValue(new String("hello world"));
-    }
-
-
-    public void sendTestNotification(View view) {
-
-        Log.d(TAG, "version: " + Build.VERSION.SDK_INT);
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-        final int NOTIFICATION_ID = 1;
-        final String NOTIFICATION_CHANNEL_ID = "my_notification_channel";
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "version: " + Build.VERSION.SDK_INT);
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name,
-                    importance);
-            channel.setDescription(description);
-            // Register the channel with the system
-//            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
-
-        }
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.alarm_sound_icon) // icon must be right size for all supported APIs
-                .setContentTitle("IDO")
-                .setContentText("Become A Better Spouse Today!")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
+    public void saveButton(View view) {
+        pushNotification.sendTestNotification();
     }
 
 

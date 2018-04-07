@@ -131,7 +131,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/holo_green_dark"
-        android:onClick="sendCloudNotification"
+        android:onClick="saveButton"
         android:text="@string/save_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alarm_spinner" />
