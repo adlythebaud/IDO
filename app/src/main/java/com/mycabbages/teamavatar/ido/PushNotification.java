@@ -35,6 +35,14 @@ class PushNotification extends ContextWrapper {
         setUpNotificationChannel();
     }
 
+    public PushNotification(Context base, String channelId, CharSequence channelName, Context context) {
+        super(base);
+        this.channelId = channelId;
+        this.channelName = channelName;
+        this.context = context;
+    }
+
+
     public String getTitle() {
         return title;
     }
@@ -64,6 +72,7 @@ class PushNotification extends ContextWrapper {
      * */
     public void setUpNotificationChannel() {
         Log.d(TAG, "Build.version.SDK_INT: " + Build.VERSION.SDK_INT);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             if (notificationManager == null) {
@@ -100,10 +109,10 @@ class PushNotification extends ContextWrapper {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.alarm_sound_icon) // icon must be right size for all supported APIs. Icon is changeable
                 .setContentTitle("IDO") // changeable
-                .setContentText("Become A Better Spouse Today!") // changeable
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentText("Become A Better Spouse Today!")  // changeable
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT) // changeable
                 .setContentIntent(pendingIntent)
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)    // changeable
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

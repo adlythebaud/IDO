@@ -16,51 +16,28 @@ exports.sendNotif = functions.auth.user().onCreate((user) => {
 //exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
 //    .onWrite((change, context) => {
         console.log("new user created");
-        //TODO: register this user to receive a push notification every night. test sending 2 notifs.
-        var uid = user.uid;
-        const promises = [];
-
-
-        const payload = {
-            notification: {
-                title: "Test Message",
-                body: "this is a test push notification."
-            }
-        };
-
-        admin.messaging().sendToDevice(uid, payload)
-            .then(function(response) {
-                console.log("Successfully sent message:", response);
-                return null;
-            })
-            .catch(function(error) {
-                console.log("Error sending message:", error);
-            });
+//        //TODO: register this user to receive a push notification every night. test sending 2 notifs.
+//        var uid = user.uid;
+//        const promises = [];
+//
+//
+//        const payload = {
+//            notification: {
+//                title: "Test Message",
+//                body: "this is a test push notification."
+//            }
+//        };
+//
+//        admin.messaging().sendToDevice(uid, payload)
+//            .then(function(response) {
+//                console.log("Successfully sent message:", response);
+//                return null;
+//            })
+//            .catch(function(error) {
+//                console.log("Error sending message:", error);
+//            });
 
         return null;
 
     });
 
-//exports.addToDatabase = functions.auth.user().onCreate(function(event) {
-//    // get the uUID
-//
-//    var uid = event.data.uid;
-//
-//    var user = event.data;
-////
-////    if (user != null) {
-////        user.updateProfile({
-////            displayName: name
-////        }).then(function() {
-////            console.log("update to user profile successful");
-////        }).catch(function(error) {
-////            console.log("update to user profile failed");
-////        });
-////    }
-//
-//    // var newUserNode = admin.database.ref('/users/{uid}');
-//
-////    newUserNode.set(user);
-//    return null;
-//
-//});
