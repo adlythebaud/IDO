@@ -122,6 +122,20 @@ class PushNotification extends ContextWrapper {
 
     }
 
+    /**
+     * SEND TEST FUTURE NOTIFICATION
+     * Testing to see if we can send a notification in the future
+     * */
+    public void sendTestFutureNotification() {
 
+    }
+
+    /**
+     * SEND NOTIFICATION
+     * Send a notification with accompanying title and text
+     * */
+    public void sendNotification(String notifTitle, String notifText) {
+
+    }
 
 }

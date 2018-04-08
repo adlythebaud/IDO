@@ -1,8 +1,12 @@
 package com.mycabbages.teamavatar.ido;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +42,7 @@ public class NotifSettingsActivity extends AppCompatActivity
     private Spinner mSpinner;
     private FirebaseDatabase mDatabase;
     private PushNotification pushNotification;
+    private Calendar mCalendar;
 
 
     @Override
@@ -131,8 +136,8 @@ public class NotifSettingsActivity extends AppCompatActivity
     @Override
     public void onTimeSet(Date date) {
         // make a gregorian calendar object, set the time to passed in Date object
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
+        mCalendar = new GregorianCalendar();
+        mCalendar.setTime(date);
 
         // Create a SimpleDateFormat object with format being "2:05" ("h:mm")
         // https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
@@ -161,9 +166,19 @@ public class NotifSettingsActivity extends AppCompatActivity
 
     /**
      * SAVE BUTTON
+     * Sends a test notification
      * */
     public void saveButton(View view) {
-        pushNotification.sendTestNotification();
+        NotificationHelper nH = new NotificationHelper(this);
+        nH.createChannel("Some ID", "Some Name",
+                NotificationManager.IMPORTANCE_HIGH);
+        NotificationCompat.Builder nb = nH.getNotification("Test Title", "Test Message");
+        nH.getManager().notify(1, nb.build());
+    }
+
+    private void startAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
     }
 
 
