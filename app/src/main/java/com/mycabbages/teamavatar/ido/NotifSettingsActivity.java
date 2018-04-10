@@ -70,6 +70,11 @@ public class NotifSettingsActivity extends AppCompatActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         pushNotification = new PushNotification(this);
+
+        //TODO: Initialize mCalendar.
+        Date date = new Date();
+        mCalendar = new GregorianCalendar();
+        mCalendar.setTime(date);
     }
 
     @Override
@@ -135,7 +140,6 @@ public class NotifSettingsActivity extends AppCompatActivity
     @Override
     public void onTimeSet(Date date) {
         // make a gregorian calendar object, set the time to passed in Date object
-        mCalendar = new GregorianCalendar();
         mCalendar.setTime(date);
 
         // Create a SimpleDateFormat object with format being "2:05" ("h:mm")
@@ -182,8 +186,7 @@ public class NotifSettingsActivity extends AppCompatActivity
                 .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
 
         /*
-        TODO: Check for if user picks a time
-        that is before device time, set the notification for the next day
+        TODO: Check for if user picks a time that is before device time, set the notification for the next day
         */
 
 
