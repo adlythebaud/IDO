@@ -22,8 +22,13 @@ public class NotificationHelper extends ContextWrapper {
     /**
      * CONSTRUCTOR
      * */
-    public NotificationHelper(Context base) {
+    public NotificationHelper(Context base, String channelID, String channelName, int importance) {
         super(base);
+        this.channelID = channelID;
+        this.channelName = channelName;
+        this.importance = importance;
+        createChannel(channelID, channelName, importance);
+        createNotificationManager();
     }
 
     /**
@@ -60,6 +65,9 @@ public class NotificationHelper extends ContextWrapper {
      * GET MANAGER
      * */
     public NotificationManager getManager() {
+        if (mManager == null) {
+            mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        }
         return mManager;
     }
 

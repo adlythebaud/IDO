@@ -1,12 +1,11 @@
 package com.mycabbages.teamavatar.ido;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -169,17 +168,36 @@ public class NotifSettingsActivity extends AppCompatActivity
      * Sends a test notification
      * */
     public void saveButton(View view) {
-        NotificationHelper nH = new NotificationHelper(this);
-        nH.createChannel("Some ID", "Some Name",
-                NotificationManager.IMPORTANCE_HIGH);
-        NotificationCompat.Builder nb = nH.getNotification("Test Title", "Test Message");
-        nH.getManager().notify(1, nb.build());
+        startAlarm();
+    }
+
+    public void deleteButton(View view) {
+        cancelAlarm();
     }
 
     private void startAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent
+                .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
+
+        /*
+        TODO: Check for if user picks a time
+        that is before device time, set the notification for the next day
+        */
+
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
+
 
     }
 
+    private void cancelAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent
+                .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
+        alarmManager.cancel(pendingIntent);
+    }
 
 }

@@ -142,6 +142,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/holo_red_dark"
+        android:onClick="deleteButton"
         android:text="@string/cancel"
         app:layout_constraintStart_toEndOf="@+id/saveButton"
         app:layout_constraintTop_toTopOf="@+id/saveButton" />

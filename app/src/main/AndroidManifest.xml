@@ -64,6 +64,8 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.mycabbages.teamavatar.ido.MainActivity" />
 
+        <receiver android:name=".AlertReceiver"/>
+
     </application>
 
 </manifest>
