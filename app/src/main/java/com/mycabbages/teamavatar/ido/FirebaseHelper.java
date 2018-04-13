@@ -27,6 +27,9 @@ public class FirebaseHelper implements Executor {
     private final String TAG = "FirebaseHelper";
 
 
+    /**
+     * FIREBASEHELPER CONSTRUCTOR
+     * */
     public FirebaseHelper() {
         mAuth = FirebaseAuth.getInstance();
         // set your DatabaseReference object to our current database.
@@ -132,6 +135,13 @@ public class FirebaseHelper implements Executor {
         }
     }
 
+    public FirebaseUser getCurrentUser() {
+        if (mUser == null) {
+            mUser = mAuth.getCurrentUser();
+        }
+        return mUser;
+    }
+
     /**
      * SIGN OUT
      * Sign out of current session.
@@ -140,6 +150,12 @@ public class FirebaseHelper implements Executor {
         mAuth.signOut();
     }
 
+    /**
+     * GET AUTH
+     * */
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
 
     /**
      * EXECUTE
