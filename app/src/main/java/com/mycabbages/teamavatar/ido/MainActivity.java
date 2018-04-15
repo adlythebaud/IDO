@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
             "Send a small thinking of you gift, something small yet meaningful"
     };
     private final String TAG = "MainActivity";
+    private FirebaseHelper fH;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Test");
 
+        fH = new FirebaseHelper(getApplicationContext());
 
         MainActivityListAdapter listAdapter = new
                 MainActivityListAdapter(MainActivity.this, list_items);
@@ -59,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // get current user here.
+        // String s = getIntent().getStringExtra("userEmail");
+         getSupportActionBar().setTitle(fH.getUserEmailFromSharedPreferences());
+
 
     }
 

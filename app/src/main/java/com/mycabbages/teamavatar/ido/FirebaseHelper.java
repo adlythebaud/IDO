@@ -1,5 +1,8 @@
 package com.mycabbages.teamavatar.ido;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -24,6 +27,7 @@ public class FirebaseHelper implements Executor {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;        // this is our database reference.
     private FirebaseUser mUser;
+    private Context mContext;
     private final String TAG = "FirebaseHelper";
 
 
@@ -31,6 +35,13 @@ public class FirebaseHelper implements Executor {
      * FIREBASEHELPER CONSTRUCTOR
      * */
     public FirebaseHelper() {
+        mAuth = FirebaseAuth.getInstance();
+        // set your DatabaseReference object to our current database.
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public FirebaseHelper(Context context) {
+        this.mContext = context;
         mAuth = FirebaseAuth.getInstance();
         // set your DatabaseReference object to our current database.
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -53,7 +64,6 @@ public class FirebaseHelper implements Executor {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-
                             Log.d(TAG, "createUserWithEmail:success");
                         } else {
                             // If sign in fails, display a message to the user.
@@ -87,6 +97,7 @@ public class FirebaseHelper implements Executor {
 
                             // save this new user in database under "users" node.
                             userRef.setValue(user);
+                            setmUser(mUser);
                         } else {
                             Log.d(TAG, "user is not signed in...");
                         }
@@ -110,6 +121,7 @@ public class FirebaseHelper implements Executor {
                             Log.d(TAG, "signInWithEmail:success");
                             // FirebaseUser user = mAuth.getCurrentUser();
                             //TODO: set up users' UI with correct goals.
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithEmail:failure", task.getException());
@@ -117,9 +129,18 @@ public class FirebaseHelper implements Executor {
                         }
 
                     }
-                });
+                }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                // access currently signed in user here...
+                mUser = mAuth.getCurrentUser();
+                if (mUser != null) {
+                    Log.d(TAG, "Currently signed in user: " + mUser.getEmail());
+                    setmUser(mUser);
+                }
 
-
+            }
+        });
     }
 
     /**
@@ -135,13 +156,6 @@ public class FirebaseHelper implements Executor {
         }
     }
 
-    public FirebaseUser getCurrentUser() {
-        if (mUser == null) {
-            mUser = mAuth.getCurrentUser();
-        }
-        return mUser;
-    }
-
     /**
      * SIGN OUT
      * Sign out of current session.
@@ -155,6 +169,53 @@ public class FirebaseHelper implements Executor {
      * */
     public FirebaseAuth getmAuth() {
         return mAuth;
+    }
+
+    /**
+     * GET USER
+     * */
+    public FirebaseUser getmUser() {
+        return mUser;
+    }
+
+    /**
+     * SET USER
+     * */
+    public void setmUser(FirebaseUser mUser) {
+        this.mUser = mUser;
+        setUserData(mUser);
+    }
+
+    /**
+     * SET USER DATA
+     * */
+    public void setUserData(FirebaseUser mUser) {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString("userDisplayName", mUser.getDisplayName());
+        edit.putString("userEmail", mUser.getEmail());
+        edit.putString("userID", mUser.getUid());
+        edit.apply();
+    }
+
+
+    public String getUserDisplayNameFromSharedPreferences() {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(mContext);
+        return pref.getString("userDisplayName", "n/a");
+    }
+
+    public String getUserEmailFromSharedPreferences() {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(mContext);
+        return pref.getString("userEmail", "n/a");
+    }
+
+    public String getUserIDFromSharedPreferences() {
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(mContext);
+        return pref.getString("userID", "n/a");
     }
 
     /**

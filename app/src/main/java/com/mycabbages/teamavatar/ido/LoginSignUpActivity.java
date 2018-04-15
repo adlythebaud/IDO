@@ -39,7 +39,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
         getUIElements();
-        firebaseHelper = new FirebaseHelper();
+        firebaseHelper = new FirebaseHelper(getApplicationContext());
         activityState = SignInState.SIGNUP;
         Log.d(TAG, activityState.toString());
     }
@@ -103,8 +103,10 @@ public class LoginSignUpActivity extends AppCompatActivity {
         emailEditText.setText("");
         passwordEditText.setText("");
 
+
         Intent intentToStartMainActivity = new Intent(this,
                 MainActivity.class);
+        // intentToStartMainActivity.putExtra("userEmail", firebaseHelper.getmUser().getEmail()); // returns null.
         startActivity(intentToStartMainActivity);
 
     }
