@@ -2,9 +2,9 @@ package com.mycabbages.teamavatar.ido;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +29,7 @@ public class FirebaseHelper implements Executor {
     private FirebaseUser mUser;
     private Context mContext;
     private final String TAG = "FirebaseHelper";
+    private boolean signInResult;
 
 
     /**
@@ -38,6 +39,7 @@ public class FirebaseHelper implements Executor {
         mAuth = FirebaseAuth.getInstance();
         // set your DatabaseReference object to our current database.
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     public FirebaseHelper(Context context) {
@@ -45,6 +47,7 @@ public class FirebaseHelper implements Executor {
         mAuth = FirebaseAuth.getInstance();
         // set your DatabaseReference object to our current database.
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     /**
@@ -59,50 +62,43 @@ public class FirebaseHelper implements Executor {
         Log.d(TAG, "signing up user");
         // sign the user up with firebase helper code, then add the user to realtime database
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
+                            // access currently signed in user here...
+                            mUser = mAuth.getCurrentUser();
+                            if (mUser != null) {
+                                Log.d(TAG, "user is logged in, " +
+                                        "auth state changed, adding them to database");
+                                // set the user's display name
+                                UserProfileChangeRequest profileUpdates =
+                                        new UserProfileChangeRequest.Builder().
+                                                setDisplayName(firstName + " " + lastName).build();
+
+                                mUser.updateProfile(profileUpdates);
+
+                                final User user = new User(firstName, lastName, email);
+
+                                final DatabaseReference userRef = mDatabase
+                                        .child("users")
+                                        .child(mUser.getUid());
+
+                                // save this new user in database under "users" node.
+                                userRef.setValue(user);
+                                setmUser(mUser);
+                            } else {
+                                Log.d(TAG, "user is not signed in...");
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             //TODO: recover from auth failure gracefully
                         }
-
                     }
-
-                    // add user to database and set their display name.
-                }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        // access currently signed in user here...
-                        mUser = mAuth.getCurrentUser();
-                        if (mUser != null) {
-                            Log.d(TAG, "user is logged in, " +
-                                    "auth state changed, adding them to database");
-                            // set the user's display name
-                            UserProfileChangeRequest profileUpdates =
-                                    new UserProfileChangeRequest.Builder().
-                                            setDisplayName(firstName + " " + lastName).build();
-
-                            mUser.updateProfile(profileUpdates);
-
-                            final User user = new User(firstName, lastName, email);
-
-                            final DatabaseReference userRef = mDatabase
-                                    .child("users")
-                                    .child(mUser.getUid());
-
-                            // save this new user in database under "users" node.
-                            userRef.setValue(user);
-                            setmUser(mUser);
-                        } else {
-                            Log.d(TAG, "user is not signed in...");
-                        }
-                    }
-        });
+                });
 
     }
 
@@ -111,36 +107,48 @@ public class FirebaseHelper implements Executor {
      * @param email
      * @param password
      * */
-    public void signInUser(final String email, final String password) {
+    public boolean signInUser(final String email, final String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener( this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            signInResult = true;
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             // FirebaseUser user = mAuth.getCurrentUser();
                             //TODO: set up users' UI with correct goals.
-
+                            Log.d(TAG, "User from task: " +task.getResult().getUser().getEmail());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithEmail:failure", task.getException());
                             //TODO: recover from auth failure gracefully
+                            if (mContext != null) {
+                                Toast.makeText(mContext
+                                        , task.getException().getMessage()
+                                        , Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+
+                            // the sign in result is false.
+                            signInResult = false;
                         }
 
                     }
                 }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                // access currently signed in user here...
-                mUser = mAuth.getCurrentUser();
-                if (mUser != null) {
-                    Log.d(TAG, "Currently signed in user: " + mUser.getEmail());
-                    setmUser(mUser);
-                }
-
-            }
-        });
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        if (authResult.getUser() != null) {
+                            // user is signed in
+                            signInResult = true;
+                            setmUser(authResult.getUser());
+                        } else {
+                            // user is not signed in, error handle.
+                            signInResult = false;
+                        }
+                    }
+                });
+        return signInResult;
     }
 
     /**
@@ -161,6 +169,7 @@ public class FirebaseHelper implements Executor {
      * Sign out of current session.
      * */
     public void signOut() {
+        removeUserDataFromSharedPreferences();
         mAuth.signOut();
     }
 
@@ -183,38 +192,51 @@ public class FirebaseHelper implements Executor {
      * */
     public void setmUser(FirebaseUser mUser) {
         this.mUser = mUser;
-        setUserData(mUser);
+        saveUserDataInSharedPreferences(mUser);
     }
 
     /**
      * SET USER DATA
      * */
-    public void setUserData(FirebaseUser mUser) {
-        SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor edit = pref.edit();
+    public void saveUserDataInSharedPreferences(FirebaseUser mUser) {
+//        SharedPreferences pref =
+//                PreferenceManager.getDefaultSharedPreferences(mContext);
+//        SharedPreferences.Editor edit = pref.edit();
+//        edit.putString("userDisplayName", mUser.getDisplayName());
+//        edit.putString("userEmail", mUser.getEmail());
+//        edit.putString("userID", mUser.getUid());
+//        edit.apply();
+        SharedPreferences sharedPreferences =
+                mContext.getSharedPreferences("FirebaseHelper", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString("userDisplayName", mUser.getDisplayName());
         edit.putString("userEmail", mUser.getEmail());
         edit.putString("userID", mUser.getUid());
         edit.apply();
     }
 
+    public void removeUserDataFromSharedPreferences() {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("FirebaseHelper", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.clear();
+        edit.apply();
+    }
 
     public String getUserDisplayNameFromSharedPreferences() {
         SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
+                mContext.getSharedPreferences("FirebaseHelper", Context.MODE_PRIVATE);
         return pref.getString("userDisplayName", "n/a");
     }
 
     public String getUserEmailFromSharedPreferences() {
         SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
+                mContext.getSharedPreferences("FirebaseHelper", Context.MODE_PRIVATE);
         return pref.getString("userEmail", "n/a");
     }
 
     public String getUserIDFromSharedPreferences() {
         SharedPreferences pref =
-                PreferenceManager.getDefaultSharedPreferences(mContext);
+                mContext.getSharedPreferences("FirebaseHelper", Context.MODE_PRIVATE);
         return pref.getString("userID", "n/a");
     }
 

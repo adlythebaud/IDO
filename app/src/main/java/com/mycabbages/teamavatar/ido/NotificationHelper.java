@@ -78,6 +78,9 @@ public class NotificationHelper extends ContextWrapper {
         this.mManager = mManager;
     }
 
+    /**
+     * GET NOTIFICATION
+     * */
     public NotificationCompat.Builder getNotification(String title, String message) {
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
                 .setContentTitle(title)

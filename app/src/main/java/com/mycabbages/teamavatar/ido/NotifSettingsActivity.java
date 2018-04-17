@@ -188,8 +188,6 @@ public class NotifSettingsActivity extends AppCompatActivity
         /*
         TODO: Check for if user picks a time that is before device time, set the notification for the next day
         */
-
-
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
 
 

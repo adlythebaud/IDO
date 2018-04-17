@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fH = new FirebaseHelper(getApplicationContext());
+        fH = new FirebaseHelper(this);
 
         MainActivityListAdapter listAdapter = new
                 MainActivityListAdapter(MainActivity.this, list_items);
@@ -67,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         // get current user here.
-        // String s = getIntent().getStringExtra("userEmail");
-         getSupportActionBar().setTitle(fH.getUserEmailFromSharedPreferences());
+        getSupportActionBar().setTitle(fH.getUserEmailFromSharedPreferences());
 
 
     }
@@ -95,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, NotifSettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.sign_out) {
-            FirebaseHelper firebaseHelper = new FirebaseHelper();
-            firebaseHelper.signOut();
+            fH.signOut();
             Intent intent = new Intent(this,
                     LoginSignUpActivity.class);
             startActivity(intent);

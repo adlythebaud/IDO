@@ -39,7 +39,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_sign_up);
         getUIElements();
-        firebaseHelper = new FirebaseHelper(getApplicationContext());
+        firebaseHelper = new FirebaseHelper(this);
         activityState = SignInState.SIGNUP;
         Log.d(TAG, activityState.toString());
     }
@@ -52,7 +52,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (firebaseHelper.isUserSignedIn()) {
-            Log.d(TAG, "user is already signed in!");
+            Log.d(TAG, "user " + firebaseHelper.getmUser().getEmail() + " is signed in");
             goToHome();
         }
     }
@@ -76,8 +76,13 @@ public class LoginSignUpActivity extends AppCompatActivity {
                 break;
             case SIGNIN:
                 Log.d(TAG, "Signing in");
-                firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
-                goToHome();
+//                if (firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
+//                    Log.d(TAG, "AUTH SUCCESS");
+//                    goToHome();
+//                }
+//                firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
+//                goToHome();
+                //TODO: Fix this. if statement needs two button clicks, no if statement needs one.
                 break;
             case PASSWORDRESET:
                 Log.d(TAG, "Resetting password");
