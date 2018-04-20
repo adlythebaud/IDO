@@ -19,6 +19,7 @@ import static android.view.View.VISIBLE;
  */
 public class LoginSignUpActivity extends AppCompatActivity {
     public final static String TAG = "LoginSignUpActivity";
+    private final String AUTHTAG = "LoginFlow";
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private EditText emailEditText;
@@ -52,7 +53,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (firebaseHelper.isUserSignedIn()) {
-            Log.d(TAG, "user " + firebaseHelper.getmUser().getEmail() + " is signed in");
+            Log.d(AUTHTAG, "user " + firebaseHelper.getmUser().getEmail() + " is signed in");
             goToHome();
         }
     }
@@ -75,11 +76,14 @@ public class LoginSignUpActivity extends AppCompatActivity {
                     goToHome();
                 break;
             case SIGNIN:
-                Log.d(TAG, "Signing in");
-//                if (firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString())) {
-//                    Log.d(TAG, "AUTH SUCCESS");
-//                    goToHome();
-//                }
+                //TODO: Need to wait here for all lines of code to catch up to each other
+                Log.d(AUTHTAG, "Sign in button clicked from LoginSignUpActivity");
+
+                boolean result = firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                if (result) {
+                    Log.d(AUTHTAG, "We're going to MainActivity");
+                    goToHome();
+                }
 //                firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
 //                goToHome();
                 //TODO: Fix this. if statement needs two button clicks, no if statement needs one.

@@ -22,13 +22,14 @@ import java.util.concurrent.Executor;
  * Created by adlythebaud on 3/20/18.
  */
 
-public class FirebaseHelper implements Executor {
+public class FirebaseHelper implements Executor, Runnable {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;        // this is our database reference.
     private FirebaseUser mUser;
     private Context mContext;
     private final String TAG = "FirebaseHelper";
+    private final String AUTHTAG = "LoginFlow";
     private boolean signInResult;
 
 
@@ -113,15 +114,14 @@ public class FirebaseHelper implements Executor {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            signInResult = true;
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                            Log.d(AUTHTAG, "signInWithEmail:success");
                             // FirebaseUser user = mAuth.getCurrentUser();
                             //TODO: set up users' UI with correct goals.
-                            Log.d(TAG, "User from task: " +task.getResult().getUser().getEmail());
+                            Log.d(AUTHTAG, "User from task: " +task.getResult().getUser().getEmail());
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d(TAG, "signInWithEmail:failure", task.getException());
+                            Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
                             //TODO: recover from auth failure gracefully
                             if (mContext != null) {
                                 Toast.makeText(mContext
@@ -131,7 +131,7 @@ public class FirebaseHelper implements Executor {
                             }
 
                             // the sign in result is false.
-                            signInResult = false;
+
                         }
 
                     }
@@ -139,15 +139,18 @@ public class FirebaseHelper implements Executor {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         if (authResult.getUser() != null) {
+                            Log.d(AUTHTAG, "onSuccessListener called from FirebaseHelper. AuthSuccess");
                             // user is signed in
-                            signInResult = true;
+                            signInResult = Boolean.TRUE;
                             setmUser(authResult.getUser());
                         } else {
+                            Log.d(AUTHTAG, "onSuccessListener called from FirebaseHelper. AuthFailure");
                             // user is not signed in, error handle.
-                            signInResult = false;
+                            signInResult = Boolean.FALSE;
                         }
                     }
-                });
+        });
+        Log.d(AUTHTAG, String.valueOf(signInResult));
         return signInResult;
     }
 
@@ -156,12 +159,7 @@ public class FirebaseHelper implements Executor {
      * @return true if user is signed in, else return false.
      * */
     public boolean isUserSignedIn() {
-        if (mAuth.getCurrentUser() != null) {
-            Log.d(TAG, mAuth.getCurrentUser().getEmail());
-            return true;
-        } else {
-            return false;
-        }
+        return mAuth.getCurrentUser() != null;
     }
 
     /**
@@ -246,7 +244,23 @@ public class FirebaseHelper implements Executor {
      * */
     @Override
     public void execute(@NonNull Runnable command) {
-        Log.d(TAG, "trying to execute...");
+        Log.d(AUTHTAG, "Execute called");
 
     }
+
+    @Override
+    public void run() {
+         /*
+         we create a thread in an activity, and pass in a Runnable object so that this code
+         is executed.
+         */
+    }
+    /*
+    * TODO:
+    * I want to click the Sign In button,
+    * authenticate the user,
+    * get a result that says whether the sign in worked or not,
+    * and then finally go to the main activity.
+    * IN THAT ORDER.
+    * */
 }
