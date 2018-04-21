@@ -22,7 +22,7 @@ import java.util.concurrent.Executor;
  * Created by adlythebaud on 3/20/18.
  */
 
-public class FirebaseHelper implements Executor, Runnable {
+public class FirebaseHelper implements Executor {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;        // this is our database reference.
@@ -197,13 +197,6 @@ public class FirebaseHelper implements Executor, Runnable {
      * SET USER DATA
      * */
     public void saveUserDataInSharedPreferences(FirebaseUser mUser) {
-//        SharedPreferences pref =
-//                PreferenceManager.getDefaultSharedPreferences(mContext);
-//        SharedPreferences.Editor edit = pref.edit();
-//        edit.putString("userDisplayName", mUser.getDisplayName());
-//        edit.putString("userEmail", mUser.getEmail());
-//        edit.putString("userID", mUser.getUid());
-//        edit.apply();
         SharedPreferences sharedPreferences =
                 mContext.getSharedPreferences("FirebaseHelper", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
@@ -245,16 +238,17 @@ public class FirebaseHelper implements Executor, Runnable {
     @Override
     public void execute(@NonNull Runnable command) {
         Log.d(AUTHTAG, "Execute called");
+        Log.d(AUTHTAG, "command.toString(): "+ command.toString()); // the runnable has a different memory signature each time...
+        /*
+        * TODO:
+        * Make an executor. have it's execute command call either the signin or signup method,
+        * depending on what the user wants.
+        * */
+
+
 
     }
 
-    @Override
-    public void run() {
-         /*
-         we create a thread in an activity, and pass in a Runnable object so that this code
-         is executed.
-         */
-    }
     /*
     * TODO:
     * I want to click the Sign In button,
