@@ -31,6 +31,7 @@ public class FirebaseHelper implements Executor {
     private final String TAG = "FirebaseHelper";
     private final String AUTHTAG = "LoginFlow";
     private boolean signInResult;
+    private Executor mExecutor;
 
 
     /**
@@ -45,6 +46,15 @@ public class FirebaseHelper implements Executor {
 
     public FirebaseHelper(Context context) {
         this.mContext = context;
+        mAuth = FirebaseAuth.getInstance();
+        // set your DatabaseReference object to our current database.
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    public FirebaseHelper(Context context, Executor executor) {
+        this.mContext = context;
+        this.mExecutor = executor;
         mAuth = FirebaseAuth.getInstance();
         // set your DatabaseReference object to our current database.
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -68,11 +78,11 @@ public class FirebaseHelper implements Executor {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
+                            Log.d(AUTHTAG, "createUserWithEmail:success");
                             // access currently signed in user here...
                             mUser = mAuth.getCurrentUser();
                             if (mUser != null) {
-                                Log.d(TAG, "user is logged in, " +
+                                Log.d(AUTHTAG, "user is logged in, " +
                                         "auth state changed, adding them to database");
                                 // set the user's display name
                                 UserProfileChangeRequest profileUpdates =
@@ -91,7 +101,7 @@ public class FirebaseHelper implements Executor {
                                 userRef.setValue(user);
                                 setmUser(mUser);
                             } else {
-                                Log.d(TAG, "user is not signed in...");
+                                Log.d(AUTHTAG, "user is not signed in...");
                             }
                         } else {
                             // If sign in fails, display a message to the user.
@@ -109,7 +119,7 @@ public class FirebaseHelper implements Executor {
      * @param password
      * */
     public boolean signInUser(final String email, final String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
+        Task<AuthResult> t =  mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -118,7 +128,7 @@ public class FirebaseHelper implements Executor {
                             Log.d(AUTHTAG, "signInWithEmail:success");
                             // FirebaseUser user = mAuth.getCurrentUser();
                             //TODO: set up users' UI with correct goals.
-                            Log.d(AUTHTAG, "User from task: " +task.getResult().getUser().getEmail());
+                            Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
@@ -131,7 +141,6 @@ public class FirebaseHelper implements Executor {
                             }
 
                             // the sign in result is false.
-
                         }
 
                     }
@@ -150,9 +159,12 @@ public class FirebaseHelper implements Executor {
                         }
                     }
         });
+
         Log.d(AUTHTAG, String.valueOf(signInResult));
+
         return signInResult;
     }
+
 
     /**
      * IS USER SIGNED IN
@@ -239,6 +251,7 @@ public class FirebaseHelper implements Executor {
     public void execute(@NonNull Runnable command) {
         Log.d(AUTHTAG, "Execute called");
         Log.d(AUTHTAG, "command.toString(): "+ command.toString()); // the runnable has a different memory signature each time...
+
         /*
         * TODO:
         * Make an executor. have it's execute command call either the signin or signup method,
