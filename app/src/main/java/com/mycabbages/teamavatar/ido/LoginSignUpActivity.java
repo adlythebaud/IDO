@@ -75,23 +75,21 @@ public class LoginSignUpActivity extends AppCompatActivity {
                     // go to home screen UI
                     goToHome();
                 break;
-            case SIGNIN:
-                //TODO: Need to wait here for all lines of code to catch up to each other
-                Log.d(AUTHTAG, "Sign in button clicked from LoginSignUpActivity");
 
-                boolean result = firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
-                if (result) {
-                    Log.d(AUTHTAG, "We're going to MainActivity");
+            case SIGNIN:
+                Log.d(AUTHTAG, "Sign in button clicked from LoginSignUpActivity");
+                if (firebaseHelper.signInUser(emailEditText.getText().toString(),
+                        passwordEditText.getText().toString())) {
+                    Log.d(AUTHTAG, "We're going to main activity");
                     goToHome();
                 }
-//                firebaseHelper.signInUser(emailEditText.getText().toString(), passwordEditText.getText().toString());
-//                goToHome();
-                //TODO: Fix this. if statement needs two button clicks, no if statement needs one.
                 break;
+
             case PASSWORDRESET:
                 Log.d(TAG, "Resetting password");
                 //TODO: Use server side code to sign in a user.
                 break;
+
             default:
                 Log.d(TAG, "nothing happened");
 

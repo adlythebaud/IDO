@@ -34,6 +34,7 @@ public class FirebaseHelper implements Executor {
     private Executor mExecutor;
 
 
+
     /**
      * FIREBASEHELPER CONSTRUCTOR
      * */
@@ -119,7 +120,7 @@ public class FirebaseHelper implements Executor {
      * @param password
      * */
     public boolean signInUser(final String email, final String password) {
-        Task<AuthResult> t =  mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -127,20 +128,18 @@ public class FirebaseHelper implements Executor {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(AUTHTAG, "signInWithEmail:success");
                             // FirebaseUser user = mAuth.getCurrentUser();
-                            //TODO: set up users' UI with correct goals.
+
                             Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
-                            //TODO: recover from auth failure gracefully
+
                             if (mContext != null) {
                                 Toast.makeText(mContext
                                         , task.getException().getMessage()
                                         , Toast.LENGTH_SHORT)
                                         .show();
                             }
-
-                            // the sign in result is false.
                         }
 
                     }
@@ -159,10 +158,46 @@ public class FirebaseHelper implements Executor {
                         }
                     }
         });
-
         Log.d(AUTHTAG, String.valueOf(signInResult));
 
         return signInResult;
+    }
+
+    /**
+     * SIGN IN USER **************************** DRAFT COPY ****************************
+     * @param email
+     * @param password
+     * */
+    public boolean signInUser(final String email, final String password, int i) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // set the boolean result value to true so we can go to the next activity
+
+                            // save the user in shared preferences
+                            setmUser(task.getResult().getUser());
+
+                            Log.d(AUTHTAG, "signInWithEmail:success");
+
+                            Log.d(AUTHTAG, "User from task: " +
+                                    task.getResult().getUser().getEmail());
+
+                            signInResult = Boolean.TRUE;
+
+                        } else {
+                            Toast.makeText(mContext
+                                    , task.getException().getMessage()
+                                    , Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+        });
+
+        Log.d(AUTHTAG, "signInResult: " + signInResult);
+        return signInResult;
+
     }
 
 
@@ -257,9 +292,7 @@ public class FirebaseHelper implements Executor {
         * Make an executor. have it's execute command call either the signin or signup method,
         * depending on what the user wants.
         * */
-
-
-
+        command.run();
     }
 
     /*
