@@ -63,6 +63,7 @@ public class LoginSignUpActivity extends AppCompatActivity {
      * Respond to large button being tapped
      * */
     public void authenticate(View view) {
+        //TODO: Error handle for if any of the text fields are empty.
         switch (activityState) {
             case SIGNUP:
                     Log.d(TAG, "Signing up");
@@ -82,12 +83,14 @@ public class LoginSignUpActivity extends AppCompatActivity {
                         passwordEditText.getText().toString())) {
                     Log.d(AUTHTAG, "We're going to main activity");
                     goToHome();
+
                 }
+
                 break;
 
             case PASSWORDRESET:
                 Log.d(TAG, "Resetting password");
-                //TODO: Use server side code to sign in a user.
+                //TODO: Take care of sending password reset email.
                 break;
 
             default:
