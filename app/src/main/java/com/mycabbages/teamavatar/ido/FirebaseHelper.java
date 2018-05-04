@@ -24,13 +24,14 @@ import java.util.concurrent.Executor;
 public class FirebaseHelper implements Executor {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mDatabase;        // this is our database reference.
+    private DatabaseReference mDatabase;
     private FirebaseUser mUser;
     private Context mContext;
     private final String TAG = "FirebaseHelper";
     private final String AUTHTAG = "LoginFlow";
-    private boolean signInResult;
+    public boolean signInResult;
     public Executor mExecutor;
+    public OnCompleteListener<AuthResult> onCompleteListener;
 
 
 
@@ -52,6 +53,12 @@ public class FirebaseHelper implements Executor {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         signInResult = Boolean.FALSE;
+        mExecutor = new Executor() {
+            @Override
+            public void execute(@NonNull Runnable command) {
+                command.run();
+            }
+        };
     }
 
     public FirebaseHelper(Context context, Executor executor) {
@@ -128,34 +135,67 @@ public class FirebaseHelper implements Executor {
      * @param password
      * @return signInResult - the result of whether or not the authentication was successful
      * */
-    public boolean signInUser(final String email, final String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(AUTHTAG, "signInWithEmail:success");
-                            // FirebaseUser user = mAuth.getCurrentUser();
-                            Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
-                            signInResult = Boolean.TRUE;
-                            setmUser(task.getResult().getUser());
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
-                            if (mContext != null) {
-                                Toast.makeText(mContext
-                                        , task.getException().getMessage()
-                                        , Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                            signInResult = Boolean.FALSE;
-                        }
+    public void signInUser(final String email, final String password) {
+//        mAuth.signInWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(AUTHTAG, "signInWithEmail:success");
+//                            // FirebaseUser user = mAuth.getCurrentUser();
+//                            Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
+//                            signInResult = Boolean.TRUE;
+//                            setmUser(task.getResult().getUser());
+//
+//                            //TODO: Go to home here.....
+//
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
+//                            if (mContext != null) {
+//                                Toast.makeText(mContext
+//                                        , task.getException().getMessage()
+//                                        , Toast.LENGTH_SHORT)
+//                                        .show();
+//                            }
+//                            signInResult = Boolean.FALSE;
+//                        }
+//
+//                    }
+//                });
+        onCompleteListener = new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(AUTHTAG, "signInWithEmail:success");
+                    // FirebaseUser user = mAuth.getCurrentUser();
+                    Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
+                    signInResult = Boolean.TRUE;
+                    setmUser(task.getResult().getUser());
 
+                    //TODO: Go to home here.....
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
+                    if (mContext != null) {
+                        Toast.makeText(mContext
+                                , task.getException().getMessage()
+                                , Toast.LENGTH_SHORT)
+                                .show();
                     }
-                });
+                    signInResult = Boolean.FALSE;
+                }
 
-        return signInResult;
+            }
+        };
+
+        mAuth.signInWithEmailAndPassword(email, password).
+                addOnCompleteListener(this, onCompleteListener);
+
+
     }
 
     /**
@@ -241,8 +281,8 @@ public class FirebaseHelper implements Executor {
      * */
     @Override
     public void execute(@NonNull Runnable command) {
-        Log.d(AUTHTAG, "Execute called. Calling command.run().");
         command.run();
+        Log.d(AUTHTAG, "Execute called. Calling command.run().");
     }
 
     /*
