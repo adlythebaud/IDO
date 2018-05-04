@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -72,55 +75,96 @@ public class LoginSignUpActivity extends AppCompatActivity {
      * */
     public void authenticate(View view) {
         //TODO: Error handle for if any of the text fields are empty.
+        final String firstName = firstNameEditText.getText().toString();
+        final String lastName = lastNameEditText.getText().toString();
+        final String email = emailEditText.getText().toString();
+        final String password = passwordEditText.getText().toString();
+
         switch (activityState) {
             case SIGNUP:
-                    Log.d(TAG, "Signing up");
+                Log.d(TAG, "Signing up");
 
-                    // Sign up user and add them to database.
-                    firebaseHelper.signUpUser(firstNameEditText.getText().toString(),
-                            lastNameEditText.getText().toString(),
+                // Sign up user and add them to database.
+                firebaseHelper.getmAuth().createUserWithEmailAndPassword(
                             emailEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                    // go to home screen UI
-                    goToHome();
+                            passwordEditText.getText().toString()).addOnCompleteListener(
+                                    this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(AUTHTAG, "createUserWithEmail:success");
+
+                                    // access currently signed in user here...
+                                    FirebaseUser mUser = firebaseHelper.getmAuth().getCurrentUser();
+
+                                    if (mUser != null) {
+                                        Log.d(AUTHTAG, "user is logged in, " +
+                                                "auth state changed, adding them to database");
+
+                                        // set the user's display name
+                                        UserProfileChangeRequest profileUpdates =
+                                                new UserProfileChangeRequest.Builder().
+                                                        setDisplayName(firstName + " " + lastName).build();
+                                        mUser.updateProfile(profileUpdates);
+
+                                        // Create a user object and add it to database.
+                                        final User user = new User(firstName, lastName, email);
+                                        final DatabaseReference userRef = firebaseHelper.getmDatabase()
+                                                .child("users")
+                                                .child(mUser.getUid());
+                                        // save this new user in database under "users" node.
+                                        userRef.setValue(user);
+                                        firebaseHelper.setmUser(mUser);
+
+                                        // Go to MainActivity.
+                                        goToHome();
+                                    } else {
+                                        Log.d(AUTHTAG, "user is not signed in...");
+                                        //TODO: error handle if user is still null...
+                                    }
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.d(AUTHTAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(getBaseContext()
+                                            , task.getException().getMessage()
+                                            , Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            }
+                        });
+
                 break;
 
             case SIGNIN:
-//                Log.d(AUTHTAG, "Sign in button clicked from LoginSignUpActivity");
-//                firebaseHelper.signInUser(emailEditText.getText().toString(),
-//                        passwordEditText.getText().toString());
-//                Log.d(AUTHTAG, "From Activity, signInResult: " + firebaseHelper.signInResult);
-//                if (firebaseHelper.signInResult) {
-//                    Log.d(AUTHTAG, "We're going to main activity");
-//                    goToHome();
-//
-//                }
                 Log.d(AUTHTAG, "Sign in button clicked from LoginSignUpActivity");
+
+                // Sign in to Firebase using FirebaseAuth's signIn method.
                 firebaseHelper.getmAuth().signInWithEmailAndPassword(emailEditText.getText().toString(),
                         passwordEditText.getText().toString()).addOnCompleteListener(firebaseHelper.mExecutor,
                         new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(AUTHTAG, "signInWithEmail:success");
-                            // FirebaseUser user = mAuth.getCurrentUser();
-                            Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
-                            firebaseHelper.setmUser(task.getResult().getUser());
-                            goToHome();
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(AUTHTAG, "signInWithEmail:success");
+                                    // FirebaseUser user = mAuth.getCurrentUser();
+                                    Log.d(AUTHTAG, "User from task: " + task.getResult().getUser().getEmail());
+                                    firebaseHelper.setmUser(task.getResult().getUser());
+                                    goToHome();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getBaseContext()
-                                    , task.getException().getMessage()
-                                    , Toast.LENGTH_SHORT)
-                                    .show();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.d(AUTHTAG, "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(getBaseContext()
+                                            , task.getException().getMessage()
+                                            , Toast.LENGTH_SHORT)
+                                            .show();
 
-                        }
+                                }
 
-                    }
-                });
+                            }
+                        });
                 break;
 
             case PASSWORDRESET:
@@ -140,7 +184,6 @@ public class LoginSignUpActivity extends AppCompatActivity {
      * */
     public void goToHome() {
         Log.d(TAG, "Intent to home called");
-        // send coupleID and userID across activities.
 
         // clear all editText elements
         firstNameEditText.setText("");
