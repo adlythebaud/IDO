@@ -40,7 +40,7 @@ public class NotifSettingsActivity extends AppCompatActivity
     private CheckBox sundayCheckbox;
     private Spinner mSpinner;
     private FirebaseDatabase mDatabase;
-    private PushNotification pushNotification;
+
     private Calendar mCalendar;
 
 
@@ -69,7 +69,7 @@ public class NotifSettingsActivity extends AppCompatActivity
         // Display back arrow (up button) in top left and enable it.
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        pushNotification = new PushNotification(this);
+
 
         //TODO: Initialize mCalendar.
         Date date = new Date();
@@ -196,8 +196,6 @@ public class NotifSettingsActivity extends AppCompatActivity
 
         // third parameter is the interval at which the user wants to be reminded of the notification.
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
-
-
 
     }
 

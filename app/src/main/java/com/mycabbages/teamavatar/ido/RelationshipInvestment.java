@@ -19,31 +19,26 @@ class RelationshipInvestment {
 
     private String title;
     private RelationshipInvestmentType type;
-    private PushNotification pushNotification;
+
     private String id;
     private int numTimesCompleted;
 
-    public RelationshipInvestment(String title, RelationshipInvestmentType type,
-                                  PushNotification pushNotification) {
+    public RelationshipInvestment(String title, RelationshipInvestmentType type) {
         this.title = title;
         this.type = type;
-        this.pushNotification = pushNotification;
+
     }
 
-    public RelationshipInvestment(String title, RelationshipInvestmentType type,
-                                  PushNotification pushNotification, String id) {
+    public RelationshipInvestment(String title, RelationshipInvestmentType type, String id) {
         this.title = title;
         this.type = type;
-        this.pushNotification = pushNotification;
         this.id = id;
     }
 
-    public RelationshipInvestment(String title, RelationshipInvestmentType type,
-                                  PushNotification pushNotification, String id,
+    public RelationshipInvestment(String title, RelationshipInvestmentType type, String id,
                                   int numTimesCompleted) {
         this.title = title;
         this.type = type;
-        this.pushNotification = pushNotification;
         this.id = id;
         this.numTimesCompleted = numTimesCompleted;
     }
@@ -62,14 +57,6 @@ class RelationshipInvestment {
 
     public void setType(RelationshipInvestmentType type) {
         this.type = type;
-    }
-
-    public PushNotification getPushNotification() {
-        return pushNotification;
-    }
-
-    public void setPushNotification(PushNotification pushNotification) {
-        this.pushNotification = pushNotification;
     }
 
     public String getId() {

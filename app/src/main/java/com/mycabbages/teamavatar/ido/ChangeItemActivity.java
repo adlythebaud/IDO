@@ -1,5 +1,8 @@
 package com.mycabbages.teamavatar.ido;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -33,6 +36,10 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     private ConstraintLayout notifConstraintLayout;
     private EditText descriptionEditText;
     private EditText timePickerEditText;
+    private Calendar datePickerCalendar;
+    private Calendar timePickerCalendar;
+    private String title;
+    private String message;
 
 
 
@@ -53,6 +60,9 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
         Bundle extra = getIntent().getExtras();
         if (extra.getString("Title") != null) {
             goalPickerButton.setText(extra.getString("Title"));
+            title = "Become A Better Spouse Today!";
+            message = extra.getString("title");
+
         }
 
         descriptionEditText = (EditText) findViewById(R.id.description);
@@ -97,6 +107,9 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
             }
         });
 
+        datePickerCalendar = new GregorianCalendar();
+        timePickerCalendar = new GregorianCalendar();
+
 
     }
 
@@ -117,6 +130,15 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
         //noinspection SimplifiableIfStatement
         if (id == R.id.done) {
             Log.d(TAG, "Done button tapped");
+            //TODO: Make sure the individual notification settings is saved here.
+            /*
+            * TODO:
+            * Get the day, get the time, show the non repeating notification to happen then.
+            * */
+            startAlarm();
+
+
+
             return true;
         }
 
@@ -146,13 +168,12 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
      * */
     @Override
     public void onDateSet(Date date) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
+        datePickerCalendar.setTime(date);
 
         String day;
         String month;
 
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+        switch (datePickerCalendar.get(Calendar.DAY_OF_WEEK)) {
             case 1:
                 day = "Sunday";
                 break;
@@ -178,7 +199,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
                 day = "Monday";
         }
 
-        switch (calendar.get(Calendar.MONTH)) {
+        switch (datePickerCalendar.get(Calendar.MONTH)) {
             case 0:
                 month = "January";
                 break;
@@ -219,7 +240,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
                 month = "January";
         }
 
-        String dateText = day + ", " + month + " " + calendar.get(Calendar.DAY_OF_MONTH);
+        String dateText = day + ", " + month + " " + datePickerCalendar.get(Calendar.DAY_OF_MONTH);
         datePickerEditText.setText(dateText);
     }
 
@@ -229,8 +250,7 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     @Override
     public void onTimeSet(Date date) {
         // make a gregorian calendar object, set the time to passed in Date object
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
+        timePickerCalendar.setTime(date);
 
         // Create a SimpleDateFormat object with format being "2:05" ("h:mm")
         // https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
@@ -250,5 +270,35 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
     public void toAddItemActivity(View view) {
         Intent intent = new Intent(this, AddItemActivity.class);
         startActivity(intent);
+    }
+
+    private void startAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, AlertReceiver.class);
+
+        intent.putExtra("title", "test title");
+        intent.putExtra("message", "test message");
+
+        PendingIntent pendingIntent = PendingIntent
+                .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
+
+        /*
+        TODO: Check for if user picks a time that is before device time, set the notification for the next day
+        */
+
+        // third parameter is the interval at which the user wants to be reminded of the notification.
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                timePickerCalendar.getTimeInMillis(),
+                pendingIntent);
+
+    }
+
+    private void cancelAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent
+                .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
+        alarmManager.cancel(pendingIntent);
     }
 }
