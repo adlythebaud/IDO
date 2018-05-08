@@ -181,14 +181,22 @@ public class NotifSettingsActivity extends AppCompatActivity
 
     private void startAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
         Intent intent = new Intent(this, AlertReceiver.class);
+
+        intent.putExtra("title", "test title");
+        intent.putExtra("message", "test message");
+
         PendingIntent pendingIntent = PendingIntent
-                .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
+                .getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT); // request code must be different for each pending intent. Flags define different behavior for pending intent.
 
         /*
         TODO: Check for if user picks a time that is before device time, set the notification for the next day
         */
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
+
+        // third parameter is the interval at which the user wants to be reminded of the notification.
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
+
 
 
     }
@@ -197,7 +205,7 @@ public class NotifSettingsActivity extends AppCompatActivity
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
         PendingIntent pendingIntent = PendingIntent
-                .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
+                .getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT); // request code must be different for each pending intent. Flags define different behavior for pending intent.
         alarmManager.cancel(pendingIntent);
     }
 

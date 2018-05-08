@@ -31,6 +31,7 @@
     <string name="reset_password">Reset Password</string>
     <string name="forgot_your_password">Forgot Your Password?</string>
     <string name="sign_out">Sign Out</string>
+    <string name="notification">Notification</string>
 
     <string-array name="alarm_array">
         <item>Bright morning</item>
