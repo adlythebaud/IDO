@@ -184,8 +184,9 @@ public class NotifSettingsActivity extends AppCompatActivity
 
         Intent intent = new Intent(this, AlertReceiver.class);
 
-        intent.putExtra("title", "test title");
-        intent.putExtra("message", "test message");
+        // TODO: Change text of title and message to be a better generic
+        intent.putExtra("title", "Improve Your Relationship Today!");
+        intent.putExtra("message", "Don't Forget To Invest In Your Relationship!");
 
         PendingIntent pendingIntent = PendingIntent
                 .getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT); // request code must be different for each pending intent. Flags define different behavior for pending intent.

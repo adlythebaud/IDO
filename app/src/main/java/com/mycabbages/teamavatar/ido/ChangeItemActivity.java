@@ -59,9 +59,11 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
 
         Bundle extra = getIntent().getExtras();
         if (extra.getString("Title") != null) {
+            Log.d(TAG, "The string has contents.....");
             goalPickerButton.setText(extra.getString("Title"));
-            title = "Become A Better Spouse Today!";
-            message = extra.getString("title");
+            title = "Become A Better Spouse Today.";
+            message = goalPickerButton.getText().toString();
+            Log.d(TAG, message);
 
         }
 
@@ -91,14 +93,14 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.d(TAG, "switch is on");
+                    Log.d(TAG, "switch is on!");
 
                     // do something because the switch is on...
                     mConstraintLayout.animate().translationY(mConstraintLayout.getHeight() +
                             deleteButton.getHeight());
                     notifConstraintLayout.setVisibility(notifConstraintLayout.VISIBLE);
                 } else {
-                    Log.d(TAG, "switch is off");
+                    Log.d(TAG, "switch is off!");
 
                     // do something because the switch is off..
                     mConstraintLayout.animate().translationY(0);
@@ -277,8 +279,8 @@ public class ChangeItemActivity extends AppCompatActivity implements DatePickerF
 
         Intent intent = new Intent(this, AlertReceiver.class);
 
-        intent.putExtra("title", "test title");
-        intent.putExtra("message", "test message");
+        intent.putExtra("title", title);
+        intent.putExtra("message", message);
 
         PendingIntent pendingIntent = PendingIntent
                 .getBroadcast(this, 1, intent, 0); // request code must be different for each pending intent. Flags define different behavior for pending intent.
