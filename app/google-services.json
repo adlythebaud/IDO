@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "598632565351",
+    "firebase_url": "https://ido-ratcliffe.firebaseio.com",
+    "project_id": "ido-ratcliffe",
+    "storage_bucket": "ido-ratcliffe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598632565351:android:d97502f944e1404c",
+        "android_client_info": {
+          "package_name": "com.mycabbages.teamavatar.ido"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598632565351-arot7kthl7nulk3rh8h8v7l75u43toa2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycabbages.teamavatar.ido",
+            "certificate_hash": "e23d7c16dbae5faedb82f8510e898c104bd5106f"
+          }
+        },
+        {
+          "client_id": "598632565351-3t50cenq3qlgrkrcs504d4cpmo06pkbv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycabbages.teamavatar.ido",
+            "certificate_hash": "c5b5ce6818aeb3e2a12edd1fc3bd33ace6795158"
+          }
+        },
+        {
+          "client_id": "598632565351-q9dbg90hr8qlk9dp36s2b9f6e4smdomd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCED5QMl65Sk78zcoQQUlBu0LvCIZF14b4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598632565351-q9dbg90hr8qlk9dp36s2b9f6e4smdomd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
